@@ -3,6 +3,16 @@
 # (via miniflare) download/build native bindings. Without these, pnpm 11+
 # aborts the install with ERR_PNPM_IGNORED_BUILDS.
 allowBuilds:
-  esbuild: true
-  workerd: true
-  sharp: true
+    esbuild: true
+    workerd: true
+    sharp: true
+catalog:
+    vite: npm:@voidzero-dev/vite-plus-core@0.2.4
+    vite-plus: 0.2.4
+overrides:
+    vite: 'catalog:'
+peerDependencyRules:
+    allowAny:
+        - vite
+    allowedVersions:
+        vite: '*'

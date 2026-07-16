@@ -1,15 +1,155 @@
-@import "tailwindcss" source(".");
+@import 'tailwindcss' source(".");
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
+@import '@fontsource/jetbrains-mono';
+
+@custom-variant dark (&:is(.dark *));
 
 @theme {
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+	/* Kami: one serif per page, --sans equals --serif (Charter → Georgia system stack) */
+	--font-sans: Charter, Georgia, Palatino, 'Times New Roman', serif;
 }
 
 html,
 body {
-  @apply bg-white dark:bg-gray-950;
+	@apply bg-background;
 
-  @media (prefers-color-scheme: dark) {
-    color-scheme: dark;
-  }
+	@media (prefers-color-scheme: dark) {
+		color-scheme: dark;
+	}
+}
+
+@theme inline {
+	--font-heading: var(--font-sans);
+	--font-sans: Charter, Georgia, Palatino, 'Times New Roman', serif;
+	--font-serif: Charter, Georgia, Palatino, 'Times New Roman', serif;
+	--font-mono: 'JetBrains Mono', 'SF Mono', 'Fira Code', Consolas, Monaco, monospace;
+	--color-sidebar-ring: var(--sidebar-ring);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar: var(--sidebar);
+	--color-chart-5: var(--chart-5);
+	--color-chart-4: var(--chart-4);
+	--color-chart-3: var(--chart-3);
+	--color-chart-2: var(--chart-2);
+	--color-chart-1: var(--chart-1);
+	--color-ring: var(--ring);
+	--color-input: var(--input);
+	--color-border: var(--border);
+	--color-destructive: var(--destructive);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-accent: var(--accent);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-muted: var(--muted);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-secondary: var(--secondary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-primary: var(--primary);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-popover: var(--popover);
+	--color-card-foreground: var(--card-foreground);
+	--color-card: var(--card);
+	--color-foreground: var(--foreground);
+	--color-background: var(--background);
+	--radius-sm: calc(var(--radius) * 0.6);
+	--radius-md: calc(var(--radius) * 0.8);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) * 1.4);
+	--radius-2xl: calc(var(--radius) * 1.8);
+	--radius-3xl: calc(var(--radius) * 2.2);
+	--radius-4xl: calc(var(--radius) * 2.6);
+}
+
+/*
+ * Kami Design System tokens.
+ * Warm parchment canvas, single ink-blue accent (#1B365D), warm yellow-brown
+ * neutrals (no cool grays), serif-led hierarchy. Source: kami references/design.md.
+ */
+:root {
+	--background: #f5f4ed; /* parchment */
+	--foreground: #141413; /* near-black */
+	--card: #faf9f5; /* ivory */
+	--card-foreground: #141413;
+	--popover: #faf9f5; /* ivory */
+	--popover-foreground: #141413;
+	--primary: #1b365d; /* brand ink-blue */
+	--primary-foreground: #faf9f5; /* ivory */
+	--secondary: #e8e6dc; /* warm-sand */
+	--secondary-foreground: #3d3d3a; /* dark-warm */
+	--muted: #e8e6dc; /* warm-sand */
+	--muted-foreground: #6b6a64; /* stone */
+	--accent: #e4ecf5; /* brand tint */
+	--accent-foreground: #1b365d; /* brand */
+	--destructive: #8b4513; /* sanctioned warm brown */
+	--border: #e8e6dc;
+	--input: #e8e6dc;
+	--ring: #1b365d; /* brand */
+	--chart-1: #1b365d;
+	--chart-2: #504e49;
+	--chart-3: #6b6a64;
+	--chart-4: #b8b7b0;
+	--chart-5: #d4d3cd;
+	--radius: 0.5rem; /* Kami default component radius (8pt) */
+	--sidebar: #faf9f5; /* ivory */
+	--sidebar-foreground: #141413;
+	--sidebar-primary: #1b365d; /* brand */
+	--sidebar-primary-foreground: #faf9f5;
+	--sidebar-accent: #e4ecf5; /* brand tint */
+	--sidebar-accent-foreground: #1b365d;
+	--sidebar-border: #e8e6dc;
+	--sidebar-ring: #1b365d;
+}
+
+.dark {
+	--background: #141413; /* deep-dark */
+	--foreground: #faf9f5; /* ivory */
+	--card: #30302e; /* dark-surface */
+	--card-foreground: #faf9f5;
+	--popover: #30302e; /* dark-surface */
+	--popover-foreground: #faf9f5;
+	--primary: #2d5a8a; /* brand-light */
+	--primary-foreground: #faf9f5;
+	--secondary: #30302e; /* dark-surface */
+	--secondary-foreground: #b0aea5; /* warm-silver */
+	--muted: #30302e;
+	--muted-foreground: #b0aea5; /* warm-silver */
+	--accent: #3d3d3a; /* dark-warm */
+	--accent-foreground: #faf9f5;
+	--destructive: #b5651d; /* warm brown, brightened for dark contrast */
+	--border: #3d3d3a;
+	--input: #3d3d3a;
+	--ring: #2d5a8a; /* brand-light */
+	--chart-1: #2d5a8a;
+	--chart-2: #6b6a64;
+	--chart-3: #8f8d85;
+	--chart-4: #b0aea5;
+	--chart-5: #d4d3cd;
+	--sidebar: #30302e; /* dark-surface */
+	--sidebar-foreground: #b0aea5;
+	--sidebar-primary: #2d5a8a; /* brand-light */
+	--sidebar-primary-foreground: #faf9f5;
+	--sidebar-accent: #3d3d3a;
+	--sidebar-accent-foreground: #faf9f5;
+	--sidebar-border: #3d3d3a;
+	--sidebar-ring: #2d5a8a;
+}
+
+@layer base {
+	* {
+		@apply border-border outline-ring/50;
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
+	button:not(:disabled),
+	[role='button']:not(:disabled) {
+		cursor: pointer;
+	}
+	html {
+		@apply font-sans;
+	}
 }
