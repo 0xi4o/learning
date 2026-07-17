@@ -12,6 +12,7 @@ const CONTENT_ROOT = 'app/content'
  * — they render inside other routes via `<Content>` and need no URL of their own.
  */
 const PAGE_COLLECTIONS: Record<string, string> = {
+	articles: '/collections/articles',
 	learning: '/learning',
 }
 
@@ -53,8 +54,8 @@ export default {
 		return [
 			'/',
 			'/learning',
-			'/portfolio',
-			'/design-system',
+			// "/portfolio",
+			// "/design-system",
 			...Object.entries(PAGE_COLLECTIONS).flatMap(([collection, prefix]) =>
 				collectionUrls(collection, prefix),
 			),
