@@ -17,9 +17,9 @@ export default function Base() {
 							<span>{hero.tagline}</span>
 						</span>
 					) : (
-						<span className='flex gap-2'>
-							<span>{hero.title}</span>
-						</span>
+						<Link className='flex gap-2' to='/'>
+							{hero.title}
+						</Link>
 					)}
 					<span className='flex items-center gap-3.5'>
 						{nav.map((link) => (

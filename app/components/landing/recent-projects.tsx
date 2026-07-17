@@ -5,10 +5,10 @@ import { projects } from '~/data/portfolio'
 
 export function RecentProjects() {
 	return (
-		<section id='projects' className='mb-14 min-[880px]:mb-[72px]'>
-			<div className='mb-6'>
+		<section id='projects' className='mb-12'>
+			<div className='typeset mb-6 space-y-2'>
 				<div className='flex items-center justify-between'>
-					<p className='text-primary mb-1.5 font-mono text-[13px] tracking-[0.4px] uppercase'>
+					<p className='font-mono text-[13px] tracking-[0.4px] uppercase'>
 						02 &middot; Work
 					</p>
 					<span className='flex items-center gap-3.5'>
@@ -21,10 +21,10 @@ export function RecentProjects() {
 						</Link>
 					</span>
 				</div>
-				<h2 className='text-foreground text-[26px] leading-[1.2] font-medium min-[880px]:text-[32px]'>
+				<h2>
 					<Link to='/projects'>Current Projects</Link>
 				</h2>
-				<p className='text-muted-foreground mt-3.5 text-[17px] leading-[1.55]'>
+				<p className='text-muted-foreground mt-0'>
 					I design and build calm, durable software — and write about the craft in public.
 				</p>
 			</div>

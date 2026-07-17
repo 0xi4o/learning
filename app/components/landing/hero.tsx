@@ -3,12 +3,12 @@ import { icons, profile } from '~/data/portfolio'
 
 export default function Hero({ title }: { title: string }) {
 	return (
-		<article className='typeset'>
+		<article className='typeset border-border mb-12 border-b pb-12'>
 			<h1>{title}</h1>
 
 			<Content id='singletons/about' className='mb-8 max-w-[820px]' />
 
-			<span className='mb-14 flex items-center gap-3.5 min-[880px]:mb-[72px]'>
+			<span className='flex items-center gap-3.5'>
 				{profile.socials.map((social) => {
 					const Icon = icons[social.label]
 					return (
