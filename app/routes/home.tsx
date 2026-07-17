@@ -1,7 +1,35 @@
+import { data } from 'react-router'
+
 import Hero from '~/components/landing/hero'
-import { RecentPosts } from '~/components/landing/recent-posts'
+import { RecentArticles } from '~/components/landing/recent-articles'
 import { RecentProjects } from '~/components/landing/recent-projects'
 import { profile } from '~/data/portfolio'
+import { getCollection, getContent } from '~/lib/content'
+
+import type { Route } from './+types/home'
+
+export function loader() {
+	const about = getContent(`singletons/about`)
+	const articles = getCollection('collections/articles')
+	const publishedArticles = articles.filter(
+		// @ts-ignore
+		(article) => article.frontmatter.status === 'published',
+	)
+	const recentPublishedArticlesSorted = publishedArticles
+		.sort(
+			(a, b) =>
+				// @ts-ignore
+				new Date(b.frontmatter.publishedAt) -
+				// @ts-ignore
+				new Date(a.frontmatter.publishedAt),
+		)
+		.slice(0, 3)
+	if (!about) throw data(null, { status: 404 })
+	return {
+		frontmatter: about.frontmatter,
+		recentArticles: recentPublishedArticlesSorted,
+	}
+}
 
 export function meta() {
 	return [
@@ -10,11 +38,13 @@ export function meta() {
 	]
 }
 
-export default function Home() {
+export default function Home({ loaderData }: Route.ComponentProps) {
+	const { frontmatter, recentArticles } = loaderData
+
 	return (
 		<>
-			<Hero />
-			<RecentPosts />
+			<Hero title={frontmatter.title} />
+			<RecentArticles recentArticles={recentArticles} />
 			<RecentProjects />
 		</>
 	)

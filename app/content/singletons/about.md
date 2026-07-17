@@ -1,10 +1,8 @@
 ---
-title: About Me
+title: Hey, I'm Ilango
 ---
 
-# Hey, I'm Ilango
-
-I'm a software engineer and maker passionate about open-source software, linux, systems, and AI. I'm a Senior Software Engineer at [Workday](https://workday.com) working on [FlowiseAI](https://flowiseai.com), building a low-code platform for building AI agents. I've previously worked at several early-stage and growth-stage SaaS startups.
+I'm a software engineer and maker, passionate about open-source software, systems, and applied AI. I'm a Senior Software Engineer at [Workday](https://workday.com) working on [FlowiseAI](https://flowiseai.com), building a low-code platform for building AI agents. I've previously worked at several early-stage and growth-stage SaaS startups.
 
 I build/tinker on [side projects](/projects) in my free time. Right now, I am building:
 

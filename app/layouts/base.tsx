@@ -24,8 +24,9 @@ export default function Base() {
 					<span className='flex items-center gap-3.5'>
 						{nav.map((link) => (
 							<Link
-								to={link.to}
 								className='flex items-center text-[var(--kami-brand)] transition-colors hover:text-[var(--kami-brand-light)]'
+								key={link.to}
+								to={link.to}
 							>
 								{link.label}
 							</Link>
