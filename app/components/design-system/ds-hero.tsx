@@ -1,0 +1,72 @@
+import { hero } from '~/data/design-system'
+
+function GitHubIcon() {
+	return (
+		<svg width='16' height='16' viewBox='0 0 16 16' fill='currentColor' aria-hidden='true'>
+			<path d='M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z' />
+		</svg>
+	)
+}
+
+function XIcon() {
+	return (
+		<svg width='14' height='14' viewBox='0 0 24 24' fill='currentColor' aria-hidden='true'>
+			<path d='M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z' />
+		</svg>
+	)
+}
+
+const icons: Record<string, () => React.ReactElement> = {
+	GitHub: GitHubIcon,
+	X: XIcon,
+}
+
+export function DSHero() {
+	return (
+		<header className='border-border mb-12 border-b pb-10 min-[880px]:mb-12'>
+			<div className='text-muted-foreground mb-[18px] flex items-center justify-between gap-4 font-mono text-[12px] font-medium tracking-[1.2px] uppercase'>
+				<span>
+					{hero.version}
+					<span className='hidden min-[480px]:inline'> {hero.date}</span>
+				</span>
+				<span className='flex items-center gap-3.5'>
+					{hero.links.map((link) => {
+						const Icon = icons[link.label]
+						return (
+							<a
+								key={link.label}
+								href={link.href}
+								target='_blank'
+								rel='noopener'
+								aria-label={link.label}
+								className='hover:text-secondary-foreground flex items-center transition-colors'
+							>
+								{Icon ? <Icon /> : link.label}
+							</a>
+						)
+					})}
+				</span>
+			</div>
+
+			<h1 className='text-foreground text-[46px] leading-[1.05] font-medium tracking-[-0.6px] min-[880px]:text-[106px] min-[880px]:tracking-[-1.2px]'>
+				{hero.title}
+				<span className='text-primary ml-2 inline-block tracking-normal min-[880px]:ml-4'>
+					{hero.cn}
+				</span>
+			</h1>
+
+			<p className='text-muted-foreground mt-3.5 max-w-[760px] text-[17px] leading-[1.35] font-medium min-[880px]:text-[21px]'>
+				{hero.tagline}
+			</p>
+
+			<div className='text-muted-foreground mt-[18px] hidden flex-wrap gap-5 font-mono text-[13px] tabular-nums min-[480px]:flex'>
+				{hero.tokens.map((token) => (
+					<span key={token.label} className='flex gap-1.5'>
+						<b className='text-secondary-foreground font-medium'>{token.label}</b>
+						{token.value}
+					</span>
+				))}
+			</div>
+		</header>
+	)
+}

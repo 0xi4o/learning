@@ -2,6 +2,7 @@
 @import 'tw-animate-css';
 @import 'shadcn/tailwind.css';
 @import '@fontsource/jetbrains-mono';
+@import './typeset.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -141,6 +142,11 @@ body {
 @layer base {
 	* {
 		@apply border-border outline-ring/50;
+	}
+	/* Kami: text selection uses the ink-blue accent tint + brand text, matching the
+	   .typeset <mark> highlight. Warm/on-brand instead of the cool browser default. */
+	::selection {
+		@apply bg-accent/80 text-accent-foreground;
 	}
 	body {
 		@apply bg-background text-foreground;
