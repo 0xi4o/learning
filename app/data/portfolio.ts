@@ -12,7 +12,7 @@ export type Profile = {
 	location: string
 	email: string
 	website: string
-	social: { label: string; handle: string; url: string }
+	socials: Array<{ label: string; handle: string; url: string }>
 }
 
 export type About = {
@@ -65,15 +65,29 @@ export type Contact = {
 	items: { label: string; value: string; url?: string }[]
 }
 
+export const hero = {
+	headline: 'About Me',
+	tagline: 'Software Engineer, Tinkerer, Coffee Nerd, Adventure Motorcyclist',
+	title: 'Ilango Rajagopal',
+}
+
 export const profile: Profile = {
 	name: 'Ilango',
 	tagline: 'I design and build calm, durable software — and write about the craft in public.',
 	yearRange: 'Selected Works 2023–2026',
 	role: 'Product Engineer',
 	location: 'Remote',
-	email: '0xido@proton.me',
+	email: 'hey@i4o.dev',
 	website: 'v4.i4o.dev',
-	social: { label: 'GitHub', handle: 'i4o', url: 'https://github.com/i4o' },
+	socials: [
+		{ label: 'GitHub', handle: '0xi4o', url: 'https://github.com/0xi4o' },
+		{ label: 'X', handle: '0xi4o', url: 'https://x.com/0xi4o' },
+		{
+			label: 'Instagram',
+			handle: 'ilango.builds.stuff',
+			url: 'https://instagram.com/ilango.builds.stuff',
+		},
+	],
 }
 
 export const about: About = {

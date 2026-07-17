@@ -35,7 +35,7 @@ export function Hero() {
 						</a>
 						<br />
 						<a
-							href={profile.social.url}
+							href={profile.socials[0].url}
 							className='hover:text-primary transition-colors'
 						>
 							{profile.website}
