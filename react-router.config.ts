@@ -12,8 +12,8 @@ const CONTENT_ROOT = 'app/content'
  * — they render inside other routes via `<Content>` and need no URL of their own.
  */
 const PAGE_COLLECTIONS: Record<string, string> = {
-	articles: '/collections/articles',
-	learning: '/learning',
+	'collections/articles': '/articles',
+	'learning': '/learning',
 }
 
 /**
@@ -31,7 +31,7 @@ function collectionUrls(collection: string, urlPrefix: string): string[] {
 			const full = join(dir, entry.name)
 			if (entry.isDirectory()) {
 				walk(full)
-			} else if (/\.mdx?$/.test(entry.name)) {
+			} else if (/\.mdx?$/.test(entry.name) && !/^index\.mdx?$/.test(entry.name)) {
 				const slug = relative(base, full)
 					.replace(/\.mdx?$/, '')
 					.split(sep)
@@ -53,6 +53,7 @@ export default {
 	async prerender() {
 		return [
 			'/',
+			'/articles',
 			'/learning',
 			// "/portfolio",
 			// "/design-system",
