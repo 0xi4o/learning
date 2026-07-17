@@ -1,7 +1,7 @@
 import { ArrowRightIcon } from 'lucide-react'
 import { Link } from 'react-router'
 
-export function RecentPosts() {
+export function RecentArticles({ recentArticles }: { recentArticles: Array<unknown> }) {
 	return (
 		<>
 			<section id='blog' className='mb-14 min-[880px]:mb-[72px]'>
@@ -29,39 +29,25 @@ export function RecentPosts() {
 					</p>
 				</div>
 				<ul className='typeset flex list-none flex-col gap-3.5'>
-					<li className='p-0'>
-						<Link
-							className='flex items-baseline justify-between gap-4'
-							to='/articles/macbook-fan-loud-overheating'
-						>
-							<span className='text-base leading-[1.5]'>
-								MacBook Fan Always Loud? Why It Happens and How to Take Control
-							</span>
-							<time className='text-sm'>2026-07-12</time>
-						</Link>
-					</li>
-					<li className='p-0'>
-						<Link
-							className='flex items-baseline justify-between gap-4'
-							to='/articles/the-design-of-mole'
-						>
-							<span className='text-base leading-[1.5]'>
-								The Design of Mole: Building a Tool That Stays Out of Your Way
-							</span>
-							<time className='text-sm'>2026-07-12</time>
-						</Link>
-					</li>
-					<li className='p-0'>
-						<Link
-							className='flex items-baseline justify-between gap-4'
-							to='/articles/why-is-my-mac-so-slow'
-						>
-							<span className='text-base leading-[1.5]'>
-								Why Is My Mac So Slow? How to Find the Cause and Fix It
-							</span>
-							<time className='text-sm'>2026-07-11</time>
-						</Link>
-					</li>
+					{recentArticles.map((article) => (
+						<li className='p-0'>
+							<Link
+								className='flex items-baseline justify-between gap-4'
+								// @ts-ignore
+								key={article.id}
+								// @ts-ignore
+								to={`/articles/${article.frontmatter.slug}`}
+							>
+								<span className='text-base leading-[1.5]'>
+									{
+										// @ts-ignore
+										article.frontmatter.title
+									}
+								</span>
+								<time className='text-sm'>2026-07-12</time>
+							</Link>
+						</li>
+					))}
 				</ul>
 			</section>
 		</>
