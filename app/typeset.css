@@ -31,13 +31,9 @@
 			--color-muted-foreground,
 			color-mix(in oklab, currentColor 60%, transparent)
 		);
-		--typeset-rule: var(--color-border, color-mix(in oklab, currentColor 20%, transparent));
-		/* Kami: body links are warm near-black (dark-warm #3d3d3a), not the ink-blue
-		   accent. On dark surfaces they lift to ink-light (#2D5A8A). */
-		--typeset-link: var(--color-secondary-foreground, currentColor);
-	}
-
-	.dark .typeset {
+		--typeset-rule: var(--color-line, color-mix(in oklab, currentColor 20%, transparent));
+		/* Kami (mole.fit): links are ink-blue, lifting to ink-light on hover.
+		   Resolves to brand in light, brand-light in dark via --color-primary. */
 		--typeset-link: var(--color-primary, currentColor);
 	}
 
@@ -49,8 +45,9 @@
 		}
 
 		/* Headings. */
+		/* Kami (mole.fit): headings are ink-blue (brand). */
 		&:where(h1, h2, h3, h4, h5, h6) {
-			color: var(--color-foreground, currentColor);
+			color: var(--color-primary, currentColor);
 			font-family: var(--typeset-font-heading);
 			/* Kami: serif weight locked at 500 — never synthetic bold (600+). */
 			font-weight: 500;
@@ -109,10 +106,13 @@
 		&:where(a) {
 			color: var(--typeset-link);
 			font-weight: 500;
-			text-decoration-line: underline;
-			text-decoration-color: color-mix(in oklab, currentColor 30%, transparent);
+			text-decoration-line: none;
+			text-decoration-color: currentColor;
+			/* text-decoration-color: color-mix(in oklab, currentColor 30%, transparent); */
 		}
 		&:where(a:hover) {
+			/* Kami (mole.fit): links lift to ink-light on hover. */
+			color: var(--kami-brand-light, currentColor);
 			text-decoration-color: currentColor;
 		}
 		&:where(a:focus-visible) {
@@ -133,10 +133,11 @@
 		&:where(:is(h1, h2, h3, h4) :is(strong, b)) {
 			font-weight: 500;
 		}
-		/* Kami highlight idiom: ink-blue tint fill + brand text (no second hue). */
+		/* Kami highlight idiom: ink-blue tint fill + brand text (no second hue).
+		   Uses the purpose-named tag tokens (same values as accent in light). */
 		&:where(mark) {
-			background-color: var(--color-accent);
-			color: var(--color-accent-foreground);
+			background-color: var(--color-tag);
+			color: var(--color-tag-foreground);
 			padding: 0.05em 0.15em;
 			border-radius: 0.2em;
 		}
@@ -265,18 +266,27 @@
 			color: var(--typeset-muted);
 		}
 
-		/* Inline code. */
+		/* Inline code. Kami (mole.fit): ink-blue text on brand-tint fill. */
 		&:where(:not(pre) > code) {
-			background-color: var(--color-muted, color-mix(in oklab, currentColor 8%, transparent));
+			color: var(--color-primary, currentColor);
+			background-color: var(
+				--color-tag-tint,
+				color-mix(in oklab, currentColor 8%, transparent)
+			);
 			font-family: var(--typeset-font-mono);
 			font-size: 0.85em;
 			border-radius: min(calc(var(--radius, 0.5em) * 0.6), 0.35em);
 			padding: 0.125em 0.3em;
 		}
 
-		/* Code blocks. */
+		/* Code blocks. Kami (mole.fit): brand-tint fill, faint border, warm text. */
 		&:where(pre) {
-			background-color: var(--color-muted, color-mix(in oklab, currentColor 8%, transparent));
+			color: var(--color-foreground, currentColor);
+			background-color: var(
+				--color-tag-tint,
+				color-mix(in oklab, currentColor 8%, transparent)
+			);
+			border: 1px solid var(--color-line-faint, transparent);
 			font-family: var(--typeset-font-mono);
 			font-size: 0.875em;
 			line-height: 1.5;
@@ -289,6 +299,7 @@
 			margin-block-end: 0;
 		}
 		&:where(pre code) {
+			color: inherit;
 			background-color: transparent;
 			font-family: inherit;
 			font-size: inherit;
@@ -438,6 +449,20 @@
 				border: 1px solid;
 			}
 		}
+	}
+
+	/*
+	 * rehype-pretty-code dual-theme (Shiki). Highlighting is baked in at build
+	 * time; these rules just pick which theme's token colors apply. Multi-theme
+	 * mode marks code with `data-theme="github-light github-dark"` (note the
+	 * space) and exposes `--shiki-light` / `--shiki-dark` per token. Background is
+	 * left to typeset's `pre` rule above (Kami muted) via `keepBackground: false`.
+	 */
+	.typeset :where(code[data-theme*=' '], code[data-theme*=' '] span) {
+		color: var(--shiki-light);
+	}
+	.dark .typeset :where(code[data-theme*=' '], code[data-theme*=' '] span) {
+		color: var(--shiki-dark);
 	}
 
 	/* First child adds no space above. Last so it wins ties. */

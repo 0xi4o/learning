@@ -40,6 +40,8 @@ the single source of truth. Follow these rules for all UI work:
 - **Spacing** uses Tailwind's default 4px scale, which already matches Kami's 4pt base unit.
 - **Type is serif-led.** The default font (`--font-sans`) is Kami's Charter serif stack; code
   uses `--font-mono` (JetBrains Mono). Don't reintroduce a UI sans font.
-- **Restraint:** ink-blue (`primary`) is the only accent and should stay sparing (Kami: ≤ ~5%
-  of surface). Everything else is warm neutral. Prefer subtle depth (borders, whisper shadow)
-  over hard drop shadows.
+- **Restraint:** ink-blue (`primary`) is the single accent hue. Following the mole.fit Kami
+  reference site, it carries the **reading system** — headings, links, and inline code all
+  render ink-blue — while **body text is warm dark-warm** (`--foreground`) and every other
+  surface stays warm neutral. Introduce **no second chromatic hue** and no cool grays. Prefer
+  subtle depth (borders, whisper shadow) over hard drop shadows.

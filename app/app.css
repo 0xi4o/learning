@@ -40,10 +40,20 @@ body {
 	--color-chart-1: var(--chart-1);
 	--color-ring: var(--ring);
 	--color-input: var(--input);
+	--color-line-faint: var(--line-faint);
+	--color-line: var(--line);
+	--color-border-soft: var(--border-soft);
 	--color-border: var(--border);
+	--color-breaking-foreground: var(--breaking-foreground);
+	--color-breaking: var(--breaking);
 	--color-destructive: var(--destructive);
+	--color-tag-strong: var(--tag-strong);
+	--color-tag-tint: var(--tag-tint);
+	--color-tag-foreground: var(--tag-foreground);
+	--color-tag: var(--tag);
 	--color-accent-foreground: var(--accent-foreground);
 	--color-accent: var(--accent);
+	--color-subtext-foreground: var(--subtext-foreground);
 	--color-muted-foreground: var(--muted-foreground);
 	--color-muted: var(--muted);
 	--color-secondary-foreground: var(--secondary-foreground);
@@ -66,77 +76,140 @@ body {
 }
 
 /*
- * Kami Design System tokens.
- * Warm parchment canvas, single ink-blue accent (#1B365D), warm yellow-brown
- * neutrals (no cool grays), serif-led hierarchy. Source: kami references/design.md.
+ * Kami palette — Layer 1 (primitives).
+ * Every named color in the Kami Design System, as a mode-agnostic `--kami-*`
+ * primitive. The semantic tokens below (Layer 2) cherry-pick from this list, so
+ * re-skinning a role is a one-line change. Source: kami references/design.md +
+ * references/tokens.json. All grays are warm-toned (R ≈ G > B) — never cool.
  */
 :root {
-	--background: #f5f4ed; /* parchment */
-	--foreground: #141413; /* near-black */
-	--card: #faf9f5; /* ivory */
-	--card-foreground: #141413;
-	--popover: #faf9f5; /* ivory */
-	--popover-foreground: #141413;
-	--primary: #1b365d; /* brand ink-blue */
-	--primary-foreground: #faf9f5; /* ivory */
-	--secondary: #e8e6dc; /* warm-sand */
-	--secondary-foreground: #3d3d3a; /* dark-warm */
-	--muted: #e8e6dc; /* warm-sand */
-	--muted-foreground: #6b6a64; /* stone */
-	--accent: #e4ecf5; /* brand tint */
-	--accent-foreground: #1b365d; /* brand */
-	--destructive: #8b4513; /* sanctioned warm brown */
-	--border: #e8e6dc;
-	--input: #e8e6dc;
-	--ring: #1b365d; /* brand */
-	--chart-1: #1b365d;
-	--chart-2: #504e49;
-	--chart-3: #6b6a64;
-	--chart-4: #b8b7b0;
-	--chart-5: #d4d3cd;
+	/* Surfaces */
+	--kami-parchment: #f5f4ed;
+	--kami-ivory: #faf9f5;
+	--kami-warm-sand: #e8e6dc;
+	--kami-dark-surface: #30302e;
+	--kami-deep-dark: #141413;
+	/* Brand — the only chromatic hue */
+	--kami-brand: #1b365d;
+	--kami-brand-light: #2d5a8a; /* links on dark surfaces */
+	/* Warm neutrals / text ladder */
+	--kami-near-black: #141413; /* primary text */
+	--kami-dark-warm: #3d3d3a; /* secondary text, links */
+	--kami-charcoal: #4d4c48; /* JA subtext override */
+	--kami-olive: #504e49; /* subtext, captions */
+	--kami-stone: #6b6a64; /* tertiary — dates, metadata */
+	--kami-ash: #8f8d85; /* dark-mode chart mid */
+	--kami-warm-silver: #b0aea5;
+	--kami-light-stone: #b8b7b0;
+	--kami-mist: #d4d3cd;
+	/* Borders */
+	--kami-border: #e8e6dc; /* dividers, table headers, cards */
+	--kami-border-soft: #f1eee5; /* card edge, subtle dividers (mole.fit) */
+	--kami-line: #d8d5c8; /* rule / divider line */
+	--kami-line-faint: #edebe1; /* faint divider, code-block border */
+	/* Tag-tint ladder — ink-blue over parchment, solid hex only */
+	--kami-brand-tint: #eef2f7; /* 0.08 */
+	--kami-tag-bg: #e4ecf5; /* 0.14–0.18, default tag */
+	--kami-tag-deep: #d0dce9; /* 0.22 */
+	--kami-tag-mid: #d6e1ee; /* 0.30 */
+	/* Sanctioned warm-brown "breaking" accent — the one chromatic exception */
+	--kami-breaking-bg: #f0e0d8;
+	--kami-breaking-fg: #8b4513;
+	--kami-breaking-fg-dark: #b5651d; /* brightened for dark contrast */
+}
+
+/*
+ * Kami semantic tokens — Layer 2 (roles).
+ * Warm parchment canvas, single ink-blue accent, serif-led hierarchy. Each token
+ * references a `--kami-*` primitive above; swap the reference to re-skin a role.
+ */
+:root {
+	--background: var(--kami-parchment);
+	--foreground: var(--kami-dark-warm); /* warm body text (mole.fit) */
+	--card: var(--kami-ivory);
+	--card-foreground: var(--kami-dark-warm);
+	--popover: var(--kami-ivory);
+	--popover-foreground: var(--kami-dark-warm);
+	--primary: var(--kami-brand);
+	--primary-foreground: var(--kami-ivory);
+	--secondary: var(--kami-warm-sand);
+	--secondary-foreground: var(--kami-dark-warm); /* secondary text, links */
+	--muted: var(--kami-warm-sand);
+	--muted-foreground: var(--kami-stone); /* tertiary — dates, metadata */
+	--subtext-foreground: var(--kami-olive); /* subtext, captions (3rd level) */
+	--accent: var(--kami-tag-bg);
+	--accent-foreground: var(--kami-brand);
+	--tag: var(--kami-tag-bg);
+	--tag-foreground: var(--kami-brand);
+	--tag-tint: var(--kami-brand-tint); /* lightest chip / hover fill */
+	--tag-strong: var(--kami-tag-deep); /* active / selected chip */
+	--breaking: var(--kami-breaking-bg);
+	--breaking-foreground: var(--kami-breaking-fg);
+	--destructive: var(--kami-breaking-fg);
+	--border: var(--kami-border);
+	--border-soft: var(--kami-border-soft);
+	--line: var(--kami-line);
+	--line-faint: var(--kami-line-faint);
+	--input: var(--kami-border);
+	--ring: var(--kami-brand);
+	--chart-1: var(--kami-brand);
+	--chart-2: var(--kami-olive);
+	--chart-3: var(--kami-stone);
+	--chart-4: var(--kami-light-stone);
+	--chart-5: var(--kami-mist);
 	--radius: 0.5rem; /* Kami default component radius (8pt) */
-	--sidebar: #faf9f5; /* ivory */
-	--sidebar-foreground: #141413;
-	--sidebar-primary: #1b365d; /* brand */
-	--sidebar-primary-foreground: #faf9f5;
-	--sidebar-accent: #e4ecf5; /* brand tint */
-	--sidebar-accent-foreground: #1b365d;
-	--sidebar-border: #e8e6dc;
-	--sidebar-ring: #1b365d;
+	--sidebar: var(--kami-ivory);
+	--sidebar-foreground: var(--kami-dark-warm);
+	--sidebar-primary: var(--kami-brand);
+	--sidebar-primary-foreground: var(--kami-ivory);
+	--sidebar-accent: var(--kami-tag-bg);
+	--sidebar-accent-foreground: var(--kami-brand);
+	--sidebar-border: var(--kami-border);
+	--sidebar-ring: var(--kami-brand);
 }
 
 .dark {
-	--background: #141413; /* deep-dark */
-	--foreground: #faf9f5; /* ivory */
-	--card: #30302e; /* dark-surface */
-	--card-foreground: #faf9f5;
-	--popover: #30302e; /* dark-surface */
-	--popover-foreground: #faf9f5;
-	--primary: #2d5a8a; /* brand-light */
-	--primary-foreground: #faf9f5;
-	--secondary: #30302e; /* dark-surface */
-	--secondary-foreground: #b0aea5; /* warm-silver */
-	--muted: #30302e;
-	--muted-foreground: #b0aea5; /* warm-silver */
-	--accent: #3d3d3a; /* dark-warm */
-	--accent-foreground: #faf9f5;
-	--destructive: #b5651d; /* warm brown, brightened for dark contrast */
-	--border: #3d3d3a;
-	--input: #3d3d3a;
-	--ring: #2d5a8a; /* brand-light */
-	--chart-1: #2d5a8a;
-	--chart-2: #6b6a64;
-	--chart-3: #8f8d85;
-	--chart-4: #b0aea5;
-	--chart-5: #d4d3cd;
-	--sidebar: #30302e; /* dark-surface */
-	--sidebar-foreground: #b0aea5;
-	--sidebar-primary: #2d5a8a; /* brand-light */
-	--sidebar-primary-foreground: #faf9f5;
-	--sidebar-accent: #3d3d3a;
-	--sidebar-accent-foreground: #faf9f5;
-	--sidebar-border: #3d3d3a;
-	--sidebar-ring: #2d5a8a;
+	--background: var(--kami-deep-dark);
+	--foreground: var(--kami-ivory);
+	--card: var(--kami-dark-surface);
+	--card-foreground: var(--kami-ivory);
+	--popover: var(--kami-dark-surface);
+	--popover-foreground: var(--kami-ivory);
+	--primary: var(--kami-brand-light);
+	--primary-foreground: var(--kami-ivory);
+	--secondary: var(--kami-dark-surface);
+	--secondary-foreground: var(--kami-warm-silver);
+	--muted: var(--kami-dark-surface);
+	--muted-foreground: var(--kami-warm-silver);
+	--subtext-foreground: var(--kami-light-stone);
+	--accent: var(--kami-dark-warm);
+	--accent-foreground: var(--kami-ivory);
+	--tag: var(--kami-dark-warm);
+	--tag-foreground: var(--kami-ivory);
+	--tag-tint: var(--kami-dark-surface);
+	--tag-strong: var(--kami-ash);
+	--breaking: var(--kami-dark-warm);
+	--breaking-foreground: var(--kami-breaking-fg-dark);
+	--destructive: var(--kami-breaking-fg-dark);
+	--border: var(--kami-dark-warm);
+	--border-soft: var(--kami-ash);
+	--line: var(--kami-dark-warm);
+	--line-faint: var(--kami-dark-surface);
+	--input: var(--kami-dark-warm);
+	--ring: var(--kami-brand-light);
+	--chart-1: var(--kami-brand-light);
+	--chart-2: var(--kami-stone);
+	--chart-3: var(--kami-ash);
+	--chart-4: var(--kami-warm-silver);
+	--chart-5: var(--kami-mist);
+	--sidebar: var(--kami-dark-surface);
+	--sidebar-foreground: var(--kami-warm-silver);
+	--sidebar-primary: var(--kami-brand-light);
+	--sidebar-primary-foreground: var(--kami-ivory);
+	--sidebar-accent: var(--kami-dark-warm);
+	--sidebar-accent-foreground: var(--kami-ivory);
+	--sidebar-border: var(--kami-dark-warm);
+	--sidebar-ring: var(--kami-brand-light);
 }
 
 @layer base {
@@ -150,6 +223,11 @@ body {
 	}
 	body {
 		@apply bg-background text-foreground;
+		/* Kami (mole.fit): grayscale smoothing renders the serif thinner/lighter.
+		   Without it macOS defaults to subpixel-antialiased, which makes the same
+		   text color read heavier and darker than the reference site. */
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
 	}
 	button:not(:disabled),
 	[role='button']:not(:disabled) {
