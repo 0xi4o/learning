@@ -1,8 +1,16 @@
+import { SiGithub, SiInstagram, SiX } from '@icons-pack/react-simple-icons'
+
 // Portfolio content — the single source of truth for the page.
 // Replace the placeholder copy with your own, and drop real images into
 // `public/` then point `Project.image` at them (e.g. '/work/atlas-hero.png').
 // Writing follows the Kami rules: open each case study with the problem and
 // its stakes, keep outcomes quantified, and state your exact role.
+
+export const icons: Record<string, React.ReactElement> = {
+	GitHub: <SiGithub className='size-4' />,
+	X: <SiX className='size-3' />,
+	Instagram: <SiInstagram className='size-4' />,
+}
 
 export type Profile = {
 	name: string
@@ -67,18 +75,24 @@ export type Contact = {
 
 export const hero = {
 	headline: 'About Me',
-	tagline: 'Software Engineer, Tinkerer, Coffee Nerd, Adventure Motorcyclist',
+	tagline: 'Software Engineer, Tinkerer, Coffee Nerd',
 	title: 'Ilango Rajagopal',
 }
+
+export const nav = [
+	{ label: 'Articles', to: '/articles' },
+	{ label: 'Series', to: '/series' },
+	{ label: 'Projects', to: '/projects' },
+]
 
 export const profile: Profile = {
 	name: 'Ilango',
 	tagline: 'I design and build calm, durable software — and write about the craft in public.',
 	yearRange: 'Selected Works 2023–2026',
 	role: 'Product Engineer',
-	location: 'Remote',
+	location: 'Bangalore',
 	email: 'hey@i4o.dev',
-	website: 'v4.i4o.dev',
+	website: 'https://i4o.dev',
 	socials: [
 		{ label: 'GitHub', handle: '0xi4o', url: 'https://github.com/0xi4o' },
 		{ label: 'X', handle: '0xi4o', url: 'https://x.com/0xi4o' },
@@ -192,10 +206,10 @@ export const posts: Post[] = [
 ]
 
 export const contact: Contact = {
-	headline: 'Open to new collaborations.',
+	headline: '2026 Ilango Rajagopal',
 	items: [
 		{ label: 'Email', value: '0xido@proton.me', url: 'mailto:0xido@proton.me' },
-		{ label: 'Website', value: 'v4.i4o.dev', url: 'https://v4.i4o.dev' },
-		{ label: 'GitHub', value: '@i4o', url: 'https://github.com/i4o' },
+		{ label: 'Website', value: 'i4o.dev', url: 'https://i4o.dev' },
+		{ label: 'GitHub', value: '@0xi4o', url: 'https://github.com/0xi4o' },
 	],
 }

@@ -1,5 +1,4 @@
 import Hero from '~/components/landing/hero'
-import { LandingFooter } from '~/components/landing/landing-footer'
 import { RecentPosts } from '~/components/landing/recent-posts'
 import { RecentProjects } from '~/components/landing/recent-projects'
 import { profile } from '~/data/portfolio'
@@ -17,7 +16,6 @@ export default function Home() {
 			<Hero />
 			<RecentPosts />
 			<RecentProjects />
-			<LandingFooter />
 		</>
 	)
 }
