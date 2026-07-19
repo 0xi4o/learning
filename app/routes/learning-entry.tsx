@@ -9,7 +9,7 @@ export function loader({ params }: Route.LoaderArgs) {
 	// Prerendering requests the trailing-slash form (`/learning/golang/`), so the splat param can
 	// arrive as `golang/` — normalize before resolving.
 	const slug = (params['*'] ?? '').replace(/\/+$/, '')
-	const entry = getContent(`learning/${slug}`)
+	const entry = getContent(`collections/learning/${slug}/index`)
 	// The compiled MDX component is not serializable, so the loader returns only the frontmatter
 	// (JSON). The component re-resolves the entry (cheap object lookup) to render it.
 	if (!entry) throw data(null, { status: 404 })
@@ -25,7 +25,7 @@ export function meta({ loaderData }: Route.MetaArgs) {
 }
 
 export default function LearningEntry({ loaderData }: Route.ComponentProps) {
-	const entry = getContent(`learning/${loaderData.slug}`)
+	const entry = getContent(`collections/learning/${loaderData.slug}/index`)
 	if (!entry) return null
 	const { Component, frontmatter } = entry
 

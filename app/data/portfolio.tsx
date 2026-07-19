@@ -83,6 +83,7 @@ export const nav = [
 	{ label: 'Articles', to: '/articles' },
 	{ label: 'Series', to: '/series' },
 	{ label: 'Projects', to: '/projects' },
+	{ label: 'Now', to: '/now' },
 ]
 
 export const profile: Profile = {

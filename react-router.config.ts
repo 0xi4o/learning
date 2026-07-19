@@ -13,7 +13,7 @@ const CONTENT_ROOT = 'app/content'
  */
 const PAGE_COLLECTIONS: Record<string, string> = {
 	'collections/articles': '/articles',
-	'learning': '/learning',
+	'collections/learning': '/learning',
 }
 
 /**
@@ -21,6 +21,11 @@ const PAGE_COLLECTIONS: Record<string, string> = {
  * build time — it cannot use `import.meta.glob` (that only exists in the Vite app graph), so it
  * reads the filesystem directly. Runtime code in the Worker never touches the filesystem; that path
  * uses `import.meta.glob` instead (see `app/lib/content.ts`).
+ *
+ * Slug = the file's path under the collection, minus extension, with a trailing `index` dropped.
+ * This handles both collection shapes: flat files (`articles/hello-2024` → `hello-2024`) and nested
+ * topics whose page is an `index.md` (`learning/golang/index` → `golang`). The collection's own
+ * root `index` collapses to an empty slug and is skipped (it's the listing page, not an entry).
  */
 function collectionUrls(collection: string, urlPrefix: string): string[] {
 	const base = join(CONTENT_ROOT, collection)
@@ -31,12 +36,13 @@ function collectionUrls(collection: string, urlPrefix: string): string[] {
 			const full = join(dir, entry.name)
 			if (entry.isDirectory()) {
 				walk(full)
-			} else if (/\.mdx?$/.test(entry.name) && !/^index\.mdx?$/.test(entry.name)) {
+			} else if (/\.mdx?$/.test(entry.name)) {
 				const slug = relative(base, full)
 					.replace(/\.mdx?$/, '')
 					.split(sep)
 					.join('/')
-				urls.push(`${urlPrefix}/${slug}`)
+					.replace(/(^|\/)index$/, '')
+				if (slug) urls.push(`${urlPrefix}/${slug}`)
 			}
 		}
 	}
