@@ -4,7 +4,7 @@
  */
 {
 	"$schema": "node_modules/wrangler/config-schema.json",
-	"name": "learning",
+	"name": "v4-i4o-dev",
 	"compatibility_date": "2026-07-16",
 	"main": "./workers/app.ts",
 	"vars": {
