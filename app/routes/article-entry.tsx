@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { data, Link } from 'react-router'
 
 import { MdxProvider } from '~/components/mdx-provider'
@@ -6,13 +7,8 @@ import { getContent } from '~/lib/content'
 import type { Route } from './+types/article-entry'
 
 export function loader({ params }: Route.LoaderArgs) {
-	// Prerendering requests the trailing-slash form (`/learning/golang/`), so the splat param can
-	// arrive as `golang/` — normalize before resolving.
-	// const slug = (params["*"] ?? "").replace(/\/+$/, "");
 	const { slug } = params
 	const entry = getContent(`collections/articles/${slug}`)
-	// The compiled MDX component is not serializable, so the loader returns only the frontmatter
-	// (JSON). The component re-resolves the entry (cheap object lookup) to render it.
 	if (!entry) throw data(null, { status: 404 })
 	return { slug, frontmatter: entry.frontmatter }
 }
@@ -31,29 +27,34 @@ export default function LearningEntry({ loaderData }: Route.ComponentProps) {
 	const { Component, frontmatter } = entry
 
 	return (
-		<main className='mx-auto max-w-[820px] px-8 pt-16 pb-20 min-[880px]:px-16 min-[880px]:pt-[88px] min-[880px]:pb-[120px]'>
-			<header className='border-border mb-12 border-b pb-12'>
-				<Link
-					to='/articles'
-					className='text-primary font-mono text-[12px] font-medium tracking-[0.4px] uppercase'
-				>
-					← Articles
-				</Link>
-				<h1 className='text-foreground mt-[22px] text-[40px] leading-[1.1] font-medium tracking-[0] min-[880px]:text-[56px]'>
-					{frontmatter.title}
-				</h1>
-				{frontmatter.description && (
-					<p className='text-muted-foreground mt-[18px] text-[17px] leading-[1.4] tracking-[0.2px] min-[880px]:text-[19px]'>
-						{frontmatter.description}
+		<>
+			<Link
+				to='/articles'
+				className='text-primary font-mono text-[12px] font-medium tracking-[0.4px] uppercase'
+			>
+				← Articles
+			</Link>
+			<article className='typeset mt-8'>
+				<header className='mb-8 flex flex-col gap-2'>
+					{frontmatter.tags && frontmatter.tags.length > 0 && (
+						<p className='font-mono text-[13px] tracking-[0.4px] uppercase'>
+							{frontmatter.tags.join(' \u00B7 ')}
+						</p>
+					)}
+					<h1 className='mt-0'>{frontmatter.title}</h1>
+					<p className='mt-0 font-mono text-[12px] text-[var(--kami-stone)] uppercase'>
+						{format(
+							// @ts-ignore
+							new Date(frontmatter.publishedAt),
+							'MMMM dd, yyyy',
+						)}
+						{/* &middot; 6 min read */}
 					</p>
-				)}
-			</header>
-
-			<article className='typeset'>
+				</header>
 				<MdxProvider>
 					<Component />
 				</MdxProvider>
 			</article>
-		</main>
+		</>
 	)
 }

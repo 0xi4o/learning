@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { ArrowRightIcon } from 'lucide-react'
 import { Link } from 'react-router'
 
@@ -44,10 +45,11 @@ export function RecentArticles({ recentArticles }: { recentArticles: Array<unkno
 								}
 							</span>
 							<time className='text-sm'>
-								{
+								{format(
 									// @ts-ignore
-									article.frontmatter.publishedAt
-								}
+									new Date(article.frontmatter.publishedAt),
+									'MMMM dd, yyyy',
+								)}
 							</time>
 						</Link>
 					</li>

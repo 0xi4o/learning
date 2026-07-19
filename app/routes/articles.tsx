@@ -1,3 +1,4 @@
+import { format } from 'date-fns'
 import { data, Link } from 'react-router'
 
 import { Content } from '~/components/content'
@@ -57,10 +58,11 @@ export default function Articles({ loaderData }: Route.ComponentProps) {
 								}
 							</span>
 							<time className='text-sm'>
-								{
+								{format(
 									// @ts-ignore
-									article.frontmatter.publishedAt
-								}
+									new Date(article.frontmatter.publishedAt),
+									'MMMM dd, yyyy',
+								)}
 							</time>
 						</Link>
 					</li>
