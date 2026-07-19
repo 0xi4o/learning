@@ -6,6 +6,7 @@ tags:
     - Backend
     - Concurrency
 date: 2026-01-15
+progress: 'current'
 ---
 
 # Golang

@@ -5,6 +5,7 @@ tags:
     - Workflows
     - Distributed Systems
 date: 2026-02-02
+progress: 'current'
 ---
 
 # Temporal.io
