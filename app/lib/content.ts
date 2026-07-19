@@ -11,6 +11,8 @@ export type Frontmatter = {
 	tags?: string[]
 	/** ISO date string, e.g. `2026-07-17`. Used for sorting collections. */
 	date?: string
+	/** Learning-topic progress. `current` = actively learning, `completed` = wrapped up. */
+	progress?: 'current' | 'completed'
 }
 
 /** A compiled content module: the rendered component + its frontmatter. */
@@ -54,6 +56,25 @@ function idFromPath(path: string): string {
 	return path.replace(/^\/app\/content\//, '').replace(/\.mdx?$/, '')
 }
 
+/** Escape a literal string for safe interpolation into a `RegExp` source. */
+function escapeRegExp(s: string): string {
+	return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+/**
+ * Compile a `*`/`**` glob (over slash-separated content ids) to an anchored regex that captures
+ * each wildcard's match. `*` matches within one path segment (`[^/]*`); `**` matches across
+ * segments (`.*`). e.g. `collections/learning/**` + `/index` →
+ * `^collections/learning/(.*)/index$`.
+ */
+function globToRegExp(glob: string): RegExp {
+	const source = glob
+		.split('**')
+		.map((part) => part.split('*').map(escapeRegExp).join('([^/]*)'))
+		.join('(.*)')
+	return new RegExp(`^${source}$`)
+}
+
 /**
  * Resolve a single content file by id (its path under `app/content`, without extension) to its
  * frontmatter and compiled component. Prefers `.mdx` over `.md` when both exist. Returns `null`
@@ -69,16 +90,24 @@ export function getContent(id: string): ContentEntry | null {
 }
 
 /**
- * All entries under a collection directory (e.g. `getCollection('learning')`), newest first.
- * Matches nested files too. Returns frontmatter only, so the result is safe to return from a
- * loader.
+ * All entries matching a collection selector, newest first. The selector is either a plain
+ * directory (`getCollection('collections/articles')` → every file beneath it, nested included) or a
+ * glob with `*`/`**` wildcards — e.g. a selector of `collections/learning` followed by a
+ * single-star segment and `index` picks each topic's `index`. For a glob, the `slug` is the text
+ * the wildcards matched (`golang`); for a plain dir it's the id relative to the dir (`hello-2024`,
+ * or `2026/hello` when nested). Returns frontmatter only, so it's safe to return from a loader.
  */
-export function getCollection(dir: string): CollectionEntry[] {
-	const prefix = `${dir}/`
+export function getCollection(selector: string): CollectionEntry[] {
+	const matcher = selector.includes('*') ? globToRegExp(selector) : null
+	const prefix = `${selector}/`
 	const entries: CollectionEntry[] = []
 	for (const [path, frontmatter] of Object.entries(frontmatters)) {
+		if (!frontmatter) continue
 		const id = idFromPath(path)
-		if (id.startsWith(prefix) && frontmatter) {
+		if (matcher) {
+			const m = matcher.exec(id)
+			if (m) entries.push({ id, slug: m.slice(1).filter(Boolean).join('/'), frontmatter })
+		} else if (id.startsWith(prefix)) {
 			entries.push({ id, slug: id.slice(prefix.length), frontmatter })
 		}
 	}
