@@ -1,9 +1,9 @@
 import { ArrowRightIcon } from 'lucide-react'
 import { Link } from 'react-router'
 
-import { projects } from '~/data/portfolio'
+import { Content } from '~/components/content'
 
-export function RecentProjects() {
+export function CurrentProjects({ currentProjects }: { currentProjects: Array<unknown> }) {
 	return (
 		<section id='projects' className='mb-12'>
 			<div className='typeset mb-6 space-y-2'>
@@ -30,21 +30,41 @@ export function RecentProjects() {
 			</div>
 
 			<ul className='typeset flex list-none flex-col gap-3.5'>
-				{projects.map((project) => (
-					<li key={project.num} className='p-0'>
+				{currentProjects.map((project) => (
+					<li
+						// @ts-ignore
+						key={project.slug}
+						className='p-0'
+					>
 						<Link
 							className='flex items-center justify-between'
-							to={`/projects/${project.num}`}
+							// @ts-ignore
+							to={`/projects/${project.slug}`}
 						>
 							<span className='text-primary text-base leading-[1.5] font-medium'>
-								{project.title}
-								<small className='text-muted-foreground mt-1 block text-[13px] leading-[1.4] font-normal italic'>
-									{project.subtitle}
-								</small>
+								{
+									// @ts-ignore
+									project.frontmatter.title
+								}
+								<Content
+									// @ts-ignore
+									id={`collections/projects/${project.slug}/index`}
+									className='text-muted-foreground mt-1 block text-[13px] leading-[1.4] font-normal italic'
+								/>
 							</span>
-							<p className='text-secondary-foreground text-sm leading-[1.55]'>
-								{project.type}
-							</p>
+							{
+								// @ts-ignore
+								project.frontmatter.tags &&
+									// @ts-ignore
+									project.frontmatter.tags.length > 0 && (
+										<p className='text-secondary-foreground text-sm leading-[1.55] capitalize'>
+											{
+												// @ts-ignore
+												project.frontmatter.tags.join(' \u00B7 ')
+											}
+										</p>
+									)
+							}
 						</Link>
 					</li>
 				))}
