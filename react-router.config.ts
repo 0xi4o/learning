@@ -35,12 +35,25 @@ function globToRegExp(glob: string): RegExp {
  * there's no `projects/:slug` route (it's commented out in `routes.ts`), so they aren't
  * prerendered. Add a rule here if/when that route is enabled.
  */
-const PRERENDER_RULES: { glob: string; url: (caps: string[]) => string | null }[] = [
-	{ glob: 'collections/articles/*', url: ([s]) => (s === 'index' ? null : `/articles/${s}`) },
-	{ glob: 'collections/learning/*/index', url: ([topic]) => `/learning/${topic}` },
+const PRERENDER_RULES: {
+	glob: string
+	url: (caps: string[]) => string | null
+}[] = [
+	{
+		glob: 'collections/articles/*',
+		url: ([s]) => (s === 'index' ? null : `/articles/${s}`),
+	},
+	{
+		glob: 'collections/learning/*/index',
+		url: ([topic]) => `/learning/${topic}`,
+	},
 	{
 		glob: 'collections/learning/*/lessons/*',
 		url: ([topic, lesson]) => `/learning/${topic}/lessons/${lesson}`,
+	},
+	{
+		glob: 'collections/projects/*/index',
+		url: ([slug]) => `/projects/${slug}`,
 	},
 ]
 const COMPILED_RULES = PRERENDER_RULES.map((rule) => ({

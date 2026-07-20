@@ -35,10 +35,10 @@ export function loader() {
 export default function Learning({ loaderData }: Route.ComponentProps) {
 	const { frontmatter, currentProjects, pastProjects } = loaderData
 	return (
-		<article className='typeset flex flex-col gap-12'>
+		<article className='typeset flex flex-col gap-10'>
 			<header>
 				<h1>{frontmatter.title}</h1>
-				<Content id='collections/projects/index' className='border-border border-b pb-12' />
+				<Content id='collections/projects/index' className='border-border border-b pb-10' />
 			</header>
 
 			<section className='typeset'>
@@ -49,7 +49,7 @@ export default function Learning({ loaderData }: Route.ComponentProps) {
 						<>
 							{currentProjects.map(({ slug, frontmatter }) => (
 								<li key={slug} className='flex p-0'>
-									<Link to={`/learning/${slug}`} className='flex flex-1'>
+									<Link to={`/projects/${slug}`} className='flex flex-1'>
 										<Card className='border-border flex-1 rounded-lg border ring-0 transition-shadow hover:shadow-[0_4px_24px_rgba(0,0,0,0.05)]'>
 											<CardHeader>
 												<CardTitle className='text-[15px] font-medium'>
@@ -110,7 +110,7 @@ export default function Learning({ loaderData }: Route.ComponentProps) {
 					<ul className='grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-[18px] p-0'>
 						{pastProjects.map(({ slug, frontmatter }) => (
 							<li key={slug} className='flex p-0'>
-								<Link to={`/learning/${slug}`} className='flex flex-1'>
+								<Link to={`/projects/${slug}`} className='flex flex-1'>
 									<Card className='border-border flex-1 rounded-lg border ring-0 transition-shadow hover:shadow-[0_4px_24px_rgba(0,0,0,0.05)]'>
 										<CardHeader>
 											<CardTitle className='text-[15px] font-medium'>
