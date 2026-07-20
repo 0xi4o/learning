@@ -9,6 +9,7 @@ import type { Route } from './+types/articles'
 
 export function loader() {
 	const entry = getContent('collections/articles/index')
+	if (!entry) throw data(null, { status: 404 })
 	const articles = getCollection('collections/articles')
 	const publishedArticles = articles.filter(
 		// @ts-ignore
@@ -21,7 +22,6 @@ export function loader() {
 			// @ts-ignore
 			new Date(a.frontmatter.publishedAt),
 	)
-	if (!entry) throw data(null, { status: 404 })
 	return { articles: publishedArticlesSorted, frontmatter: entry.frontmatter }
 }
 

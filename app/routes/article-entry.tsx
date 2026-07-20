@@ -1,4 +1,5 @@
 import { format } from 'date-fns'
+import { ArrowLeftIcon } from 'lucide-react'
 import { data, Link } from 'react-router'
 
 import { MdxProvider } from '~/components/mdx-provider'
@@ -30,9 +31,10 @@ export default function LearningEntry({ loaderData }: Route.ComponentProps) {
 		<>
 			<Link
 				to='/articles'
-				className='text-primary font-mono text-[12px] font-medium tracking-[0.4px] uppercase'
+				className='text-primary flex items-center gap-2 font-mono text-[12px] font-medium tracking-[0.4px] uppercase'
 			>
-				← Articles
+				<ArrowLeftIcon className='size-4' />
+				Articles
 			</Link>
 			<article className='typeset mt-8'>
 				<header className='mb-8 flex flex-col gap-2'>

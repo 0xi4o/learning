@@ -30,11 +30,13 @@ export function RecentArticles({ recentArticles }: { recentArticles: Array<unkno
 			</div>
 			<ul className='typeset flex list-none flex-col gap-3.5'>
 				{recentArticles.map((article) => (
-					<li className='p-0'>
+					<li
+						className='p-0'
+						// @ts-ignore
+						key={article.id}
+					>
 						<Link
 							className='flex items-baseline justify-between gap-4'
-							// @ts-ignore
-							key={article.id}
 							// @ts-ignore
 							to={`/articles/${article.slug}`}
 						>

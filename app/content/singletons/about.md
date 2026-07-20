@@ -6,7 +6,7 @@ I'm a software engineer and maker, passionate about open-source software, system
 
 I build/tinker on [side projects](/projects) in my free time. Right now, I am building:
 
-- [Ink](https://github.com/aureliushq/ink), a simple static site generator
+- [Ink](https://ink.aurelius.ink), a simple static site generator
 - [Kobun](https://kobun.io), a modern GitHub-powered CMS for developers
 
 I also spend time on learning new technologies and writing about the things I learn. My areas of interests are OSS, Linux, DevOps, and System Design.
