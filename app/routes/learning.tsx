@@ -56,19 +56,24 @@ export default function Learning({ loaderData }: Route.ComponentProps) {
 												<CardTitle className='text-[15px] font-medium'>
 													{frontmatter.title}
 												</CardTitle>
-												{frontmatter.date && (
-													<CardDescription className='text-[12px]'>
-														{format(
-															new Date(frontmatter.date),
-															'MMMM dd, yyyy',
-														)}
-													</CardDescription>
-												)}
+												{
+													// @ts-ignore
+													frontmatter.createdAt && (
+														<CardDescription className='text-[12px]'>
+															{format(
+																// @ts-ignore
+																new Date(frontmatter.createdAt),
+																'MMMM dd, yyyy',
+															)}
+														</CardDescription>
+													)
+												}
 											</CardHeader>
 											<CardContent className='flex flex-1 flex-col gap-4'>
-												<p className='text-muted-foreground text-[12px] leading-[1.4]'>
-													{frontmatter.description}
-												</p>
+												<Content
+													id={`collections/learning/${slug}/index`}
+													className='text-muted-foreground text-[12px] leading-[1.4]'
+												/>
 												<div className='mt-auto flex flex-wrap gap-1.5'>
 													{frontmatter.tags?.map((tag) => (
 														<Badge key={tag} variant='secondary'>
@@ -112,19 +117,24 @@ export default function Learning({ loaderData }: Route.ComponentProps) {
 											<CardTitle className='text-[15px] font-medium'>
 												{frontmatter.title}
 											</CardTitle>
-											{frontmatter.date && (
-												<CardDescription className='text-[12px]'>
-													{format(
-														new Date(frontmatter.date),
-														'MMMM dd, yyyy',
-													)}
-												</CardDescription>
-											)}
+											{
+												// @ts-ignore
+												frontmatter.createdAt && (
+													<CardDescription className='text-[12px]'>
+														{format(
+															// @ts-ignore
+															new Date(frontmatter.createdAt),
+															'MMMM dd, yyyy',
+														)}
+													</CardDescription>
+												)
+											}
 										</CardHeader>
 										<CardContent className='flex flex-1 flex-col gap-4'>
-											<p className='text-muted-foreground text-[12px] leading-[1.4]'>
-												{frontmatter.description}
-											</p>
+											<Content
+												id={`collections/learning/${slug}/index`}
+												className='text-muted-foreground text-[12px] leading-[1.4]'
+											/>
 											<div className='mt-auto flex flex-wrap gap-1.5'>
 												{frontmatter.tags?.map((tag) => (
 													<Badge key={tag} variant='secondary'>

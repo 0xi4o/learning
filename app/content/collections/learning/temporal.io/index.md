@@ -1,38 +1,11 @@
 ---
-title: Temporal.io
-description: Durable execution and workflow orchestration — building reliable, long-running processes that survive failure.
+title: temporal.io
 tags:
-    - Workflows
-    - Distributed Systems
-date: 2026-02-02
+    - workflows
+    - distributed systems
+createdAt: 2026-07-20
 progress: 'current'
 ---
 
-# Temporal.io
-
-<Badge variant='secondary'>Durable Execution</Badge>
-
 Temporal makes long-running, failure-prone processes **reliable by default**. You
 write ordinary code; Temporal persists its state and replays it on failure.
-
-## The core idea
-
-A workflow is deterministic and durable; the messy, non-deterministic work lives in
-activities:
-
-```typescript
-export async function orderWorkflow(orderId: string): Promise<void> {
-	await charge(orderId)
-	await ship(orderId)
-	await notify(orderId)
-}
-```
-
-If the worker crashes between `charge` and `ship`, Temporal resumes exactly where it
-left off — no bespoke retry bookkeeping.
-
-## What I'm working through
-
-- Workflow vs. activity boundaries and the determinism constraint
-- Signals, queries, and `continueAsNew`
-- Testing workflows with the time-skipping test server
