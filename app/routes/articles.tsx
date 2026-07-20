@@ -41,7 +41,7 @@ export default function Articles({ loaderData }: Route.ComponentProps) {
 			<h1>{frontmatter.title}</h1>
 			<Content
 				id='collections/articles/index'
-				className='border-border mb-12 border-b pb-12'
+				className='border-border mb-10 border-b pb-10'
 			/>
 			<ul className='flex list-none flex-col gap-3.5 p-0'>
 				{articles.map((article) => (

@@ -36,7 +36,7 @@ export default function LearningEntry({ loaderData }: Route.ComponentProps) {
 				Learning
 			</Link>
 			<article className='typeset mt-8'>
-				<header className='mb-12 flex flex-col gap-2'>
+				<header className='mb-10 flex flex-col gap-2'>
 					{frontmatter.tags && frontmatter.tags.length > 0 && (
 						<p className='font-mono text-[13px] tracking-[0.4px] uppercase'>
 							{frontmatter.tags.join(' \u00B7 ')}
@@ -45,7 +45,7 @@ export default function LearningEntry({ loaderData }: Route.ComponentProps) {
 					<h1 className='mt-0'>{frontmatter.title}</h1>
 					<Content
 						id={`collections/learning/${slug}/index`}
-						className='border-border border-b pb-12'
+						className='border-border border-b pb-10'
 					/>
 				</header>
 

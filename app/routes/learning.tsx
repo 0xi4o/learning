@@ -35,10 +35,10 @@ export function loader() {
 export default function Learning({ loaderData }: Route.ComponentProps) {
 	const { frontmatter, currentTopics, pastTopics } = loaderData
 	return (
-		<article className='typeset flex flex-col gap-12'>
+		<article className='typeset flex flex-col gap-10'>
 			<header>
 				<h1>{frontmatter.title}</h1>
-				<Content id='collections/learning/index' className='border-border border-b pb-12' />
+				<Content id='collections/learning/index' className='border-border border-b pb-10' />
 			</header>
 
 			<section className='typeset'>

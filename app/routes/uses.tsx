@@ -24,8 +24,8 @@ export default function Uses({ loaderData }: Route.ComponentProps) {
 	const { frontmatter } = loaderData
 
 	return (
-		<article className='typeset flex flex-col gap-12'>
-			<header className='border-border border-b pb-12'>
+		<article className='typeset flex flex-col gap-10'>
+			<header className='border-border border-b pb-10'>
 				<h1>{frontmatter.title}</h1>
 				<p>{frontmatter.description}</p>
 			</header>
