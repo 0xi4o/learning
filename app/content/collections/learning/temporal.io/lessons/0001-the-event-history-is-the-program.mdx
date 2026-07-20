@@ -1,0 +1,152 @@
+---
+courseTitle: Temporal.io — Durable Execution with Go
+title: The Event History Is the Program
+description: The one mechanism — a persisted log plus replay — that explains everything else Temporal does.
+lessonNumber: 1
+createdAt: 2026-07-20
+updatedAt: 2026-07-20
+---
+
+import Quiz from '../assets/Quiz'
+
+**The win for this lesson:** you'll be able to say exactly what happens when a worker crashes mid-workflow, and predict — from first principles — what code is and isn't allowed inside a workflow.
+
+You already know the pitch: write ordinary code, and Temporal makes it survive crashes. This lesson is about the trick behind that pitch. It's one mechanism, and once you have it, most of Temporal's rules stop being rules to memorise and become consequences you can derive.
+
+## There is no magic snapshot
+
+The natural guess is that Temporal checkpoints your process — freezes memory, saves it somewhere. It doesn't. Nothing about your running process is saved at all.
+
+Instead, the Temporal Service keeps an append-only log for each workflow run, called the [**Event History**](https://docs.temporal.io/encyclopedia/event-history/event-history-go). It records _what happened_ — "workflow started with these arguments", "activity `Charge` completed and returned this value" — never your variables or your stack.
+
+Your code and that log interact through a strict split:
+
+- Your workflow code emits [**Commands**](../reference/glossary.mdx) — "please schedule this activity", "start a 30-day timer".
+- The Temporal Service turns outcomes into **Events** and appends them to the history.
+
+Here's the workflow from your notes, in Go this time:
+
+```go
+func OrderWorkflow(ctx workflow.Context, orderID string) error {
+	ao := workflow.ActivityOptions{StartToCloseTimeout: time.Minute}
+	ctx = workflow.WithActivityOptions(ctx, ao)
+
+	if err := workflow.ExecuteActivity(ctx, Charge, orderID).Get(ctx, nil); err != nil {
+		return err
+	}
+	if err := workflow.ExecuteActivity(ctx, Ship, orderID).Get(ctx, nil); err != nil {
+		return err
+	}
+	return workflow.ExecuteActivity(ctx, Notify, orderID).Get(ctx, nil)
+}
+```
+
+One important reframe: the Temporal Service never runs this code. _Your_ process — a [**Worker**](../reference/glossary.mdx) — runs it, after picking up tasks from a task queue. The service only stores history and hands out tasks. By the time `Charge` has finished, the history holds, roughly:
+
+```text
+1  WorkflowExecutionStarted   (input: "order-123")
+2  ActivityTaskScheduled      (Charge)
+3  ActivityTaskCompleted      (result of Charge)
+```
+
+## Now the worker dies
+
+Say the process is killed after `Charge` completes but before `Ship` runs. All in-memory state — `ctx`, local variables, the fact that we were "between lines 7 and 10" — is gone.
+
+A new worker picks up the workflow and does something that sounds absurd: it runs `OrderWorkflow` **again, from the top**. This is [**Replay**](https://docs.temporal.io/encyclopedia/event-history/event-history-go).
+
+But replay is not re-doing. When execution reaches `ExecuteActivity(ctx, Charge, …)`, the SDK checks the history, finds `ActivityTaskCompleted` for `Charge`, and — without running the activity — hands back the recorded result instantly. The code marches forward, fed answers from the log, until it reaches the first thing the history _doesn't_ have an answer for: `Ship`. That's the frontier. Normal execution resumes there, and your customer is not charged twice.
+
+The state wasn't saved. It was **reconstructed by re-deciding everything, with the past's answers pinned**. The event history, plus your code, _is_ the program state.
+
+## Two consequences you can now derive
+
+**1. Workflow code must be deterministic.** Replay only works if your code, given the same history, makes [the same decisions in the same order](https://docs.temporal.io/workflows) every time. If it called `time.Now()` or `rand.Intn()` directly, the replayed run could branch differently from the original, the commands wouldn't line up with the log, and Temporal would have to declare the replay invalid. So inside workflows: no wall-clock time, no randomness, no network calls, no ordinary goroutines. The SDK gives you replay-safe stand-ins (`workflow.Now`, `workflow.Sleep`, `workflow.Go`).
+
+**2. Activities exist because the world can't be replayed.** Charging a card is not deterministic and must not run twice. So anything that touches the outside world goes in an [activity](https://docs.temporal.io/activities): it runs once, its _result_ is recorded in history, and replay reuses the record. Activities are where non-determinism is quarantined — which is why they're allowed to do everything workflows can't.
+
+That's the whole shape of Temporal: a deterministic decision-maker (workflow) replaying against a log, delegating every real-world effect to run-once, record-the-result functions (activities).
+
+## Check yourself
+
+Answer from memory before peeking back up — the effort is what makes it stick.
+
+<Quiz
+	questions={[
+		{
+			prompt: 'A worker crashes after Charge completes but before Ship starts. A new worker picks up the workflow. What happens to Charge?',
+			options: [
+				{
+					text: 'It runs again on the new worker',
+					explanation:
+						"Replay re-runs the workflow code, but not activities — Charge's completion is in the history, so it is never re-executed.",
+				},
+				{
+					text: 'Its recorded result is reused from history',
+					correct: true,
+					explanation:
+						'The SDK finds ActivityTaskCompleted in the event history and feeds the stored result to the workflow code instantly.',
+				},
+				{
+					text: 'The workflow fails and must restart over',
+					explanation:
+						'Surviving exactly this situation is the entire point — the new worker reconstructs state via replay and continues.',
+				},
+			],
+		},
+		{
+			prompt: 'Why must workflow code be deterministic?',
+			options: [
+				{
+					text: 'The server executes workflow code on its behalf',
+					explanation:
+						'The Temporal Service never runs your code — your workers do. Determinism is needed for a different reason.',
+				},
+				{
+					text: 'Workers must all return identical activity result values',
+					explanation:
+						'Activity results are recorded once and reused — they are free to be non-deterministic, which is exactly why activities exist.',
+				},
+				{
+					text: 'Replay must regenerate the same commands as history',
+					correct: true,
+					explanation:
+						'Recovery re-runs your code against the log; if it decided differently the second time, the commands would no longer match the recorded events.',
+				},
+			],
+		},
+		{
+			prompt: 'Which of these belongs in an activity rather than in workflow code?',
+			options: [
+				{
+					text: 'Calling an external payment API over HTTP',
+					correct: true,
+					explanation:
+						'Network calls are non-deterministic and must not run twice — quarantine them in an activity so the result is recorded once.',
+				},
+				{
+					text: 'Sleeping for thirty days using workflow timers',
+					explanation:
+						'workflow.Sleep is a replay-safe timer backed by the service — long waits are precisely what workflow code is for.',
+				},
+				{
+					text: 'Branching on a result already in history',
+					explanation:
+						'Branching on recorded values is deterministic — the replayed run sees the same value and takes the same branch.',
+				},
+			],
+		},
+	]}
+/>
+
+## Go deeper
+
+**Primary source:** the [Event History walkthrough with the Go SDK](https://docs.temporal.io/encyclopedia/event-history/event-history-go) — it walks this exact mechanism with real event listings. Read it now, while the model is fresh; it should feel like confirmation rather than new material.
+
+Also worth your time: [SE Radio 596 with Maxim Fateev](https://se-radio.net/2023/12/se-radio-596-maxim-fateev-on-durable-execution-with-temporalse-radio-596/), Temporal's co-creator, on why it's designed this way. Terms live in the [glossary](../reference/glossary.mdx).
+
+**Next lesson:** hands-on — run the dev server and your first Go workflow, and watch this lesson's event history appear for real in the Web UI ([Learn Temporal's Go path](https://learn.temporal.io/getting_started/go/)).
+
+---
+
+_Anything unclear — why goroutines are banned, what "the commands wouldn't line up" concretely means, how timers survive a crash — ask me. I'm your teacher for this course, and the follow-up questions are where the learning compounds._

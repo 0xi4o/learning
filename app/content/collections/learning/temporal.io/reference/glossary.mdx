@@ -1,0 +1,30 @@
+---
+courseTitle: Temporal.io — Durable Execution with Go
+title: Glossary
+description: The course's shared vocabulary. Every lesson uses these terms exactly as defined here.
+createdAt: 2026-07-20
+updatedAt: 2026-07-20
+---
+
+# Glossary
+
+Terms follow [Temporal's own definitions](https://docs.temporal.io/workflows). When a lesson uses one of these words, it means precisely this.
+
+| Term                       | Meaning                                                                                                                                                           |
+| -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Durable execution**      | The paradigm: program state survives process crashes because it can always be reconstructed from a persisted log.                                                 |
+| **Workflow Definition**    | The code that defines your workflow — in Go, an ordinary function taking `workflow.Context`.                                                                      |
+| **Workflow Execution**     | A running instance: a Workflow Definition plus a request to execute it. Has a unique ID and its own Event History.                                                |
+| **Activity**               | A function that does the messy real-world work — API calls, DB queries, file I/O. Runs once; its result is recorded, and reused on replay rather than recomputed. |
+| **Worker**                 | Your process that polls a Task Queue and actually executes workflow and activity code. Temporal's service never runs your code.                                   |
+| **Task Queue**             | The named queue workers poll for work. The routing layer between the Temporal Service and your workers.                                                           |
+| **Command**                | A directive your workflow code generates ("schedule this activity", "start this timer") that the worker sends to the Temporal Service.                            |
+| **Event**                  | A record the Temporal Service persists in response to commands and the world ("activity completed with result X").                                                |
+| **Event History**          | The append-only log of events for one Workflow Execution — the durable source of truth for its state.                                                             |
+| **Replay**                 | Re-running workflow code from the top against the recorded Event History to reconstruct in-memory state after a crash or worker change.                           |
+| **Determinism constraint** | The rule replay depends on: the same workflow code, given the same history, must produce the same commands in the same order.                                     |
+| **Workflow Task**          | A unit of work telling a worker "advance this workflow" — run the code until it blocks, collect the commands.                                                     |
+| **Activity Task**          | A unit of work telling a worker "run this activity function with these arguments".                                                                                |
+| **Temporal Service**       | The server cluster (or Temporal Cloud) that persists histories, matches tasks to workers, and drives timers and retries.                                          |
+
+Related: [Lesson 1 — The Event History Is the Program](../lessons/0001-the-event-history-is-the-program.mdx)
