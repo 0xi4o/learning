@@ -6,17 +6,16 @@ import { Content } from '~/components/content'
 import { Badge } from '~/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyMedia } from '~/components/ui/empty'
+import { profile } from '~/data/portfolio'
 import { getCollection, getContent } from '~/lib/content'
 
 import type { Route } from './+types/learning'
 
-export function meta() {
+export function meta({ loaderData }: Route.MetaArgs) {
+	if (!loaderData) return [{ title: 'Not found' }]
 	return [
-		{ title: 'Learning in Public' },
-		{
-			name: 'description',
-			content: 'A running collection of everything I am learning with the help of AI.',
-		},
+		{ title: `${loaderData.frontmatter.title} — ${profile.name}` },
+		{ name: 'description', content: loaderData.frontmatter.description ?? '' },
 	]
 }
 
