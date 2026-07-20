@@ -9,6 +9,8 @@ export default [
 		route('learning/:slug', 'routes/learning-entry.tsx'),
 		route('learning/:slug/lessons/:lesson_slug', 'routes/lesson-entry.tsx'),
 		route('now', 'routes/now.tsx'),
+		route('projects', 'routes/projects.tsx'),
+		// route("projects/:slug", "routes/article-entry.tsx"),
 		route('uses', 'routes/uses.tsx'),
 		// route('portfolio', 'routes/portfolio.tsx'),
 		// route('design-system', 'routes/design-system.tsx'),
