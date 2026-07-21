@@ -86,6 +86,25 @@ export const nav = [
 	{ label: 'Now', to: '/now' },
 ]
 
+export const footerColumns: { title: string; links: { label: string; to: string }[] }[] = [
+	{
+		title: 'Writing',
+		links: [
+			{ label: 'Articles', to: '/articles' },
+			{ label: 'Series', to: '/series' },
+			{ label: 'Learning', to: '/learning' },
+		],
+	},
+	{
+		title: 'Site',
+		links: [
+			{ label: 'Projects', to: '/projects' },
+			{ label: 'Now', to: '/now' },
+			{ label: 'Uses', to: '/uses' },
+		],
+	},
+]
+
 export const profile: Profile = {
 	name: 'Ilango',
 	tagline: 'I design and build calm, durable software — and write about the craft in public.',
