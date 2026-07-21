@@ -12,6 +12,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			<head>
 				<meta charSet='utf-8' />
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
+				<link
+					rel='alternate'
+					type='application/rss+xml'
+					title='Ilango Rajagopal'
+					href='/rss.xml'
+				/>
 				<Meta />
 				<Links />
 			</head>

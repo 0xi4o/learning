@@ -70,7 +70,17 @@ const COMPILED_RULES = PRERENDER_RULES.map((rule) => ({
 }))
 
 /** Static, param-less routes (home + collection landing pages + singletons). */
-const STATIC_ROUTES = ['/', '/articles', '/learning', '/projects', '/series', '/now', '/uses']
+const STATIC_ROUTES = [
+	'/',
+	'/articles',
+	'/learning',
+	'/projects',
+	'/series',
+	'/now',
+	'/uses',
+	'/rss.xml',
+	'/sitemap.xml',
+]
 
 /**
  * Walk `app/content` once and turn every `.md`/`.mdx` file whose id matches a prerender rule into

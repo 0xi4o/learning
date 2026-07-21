@@ -13,6 +13,24 @@ export type Frontmatter = {
 	date?: string
 	/** Learning-topic progress. `current` = actively learning, `completed` = wrapped up. */
 	progress?: 'current' | 'completed'
+	/** Publication state for articles/series. Only `published` entries are listed/fed. */
+	status?: 'draft' | 'published'
+	/**
+	 * ISO dates used across collections (articles/series use `publishedAt`; learning uses
+	 * `createdAt`).
+	 */
+	createdAt?: string
+	publishedAt?: string
+	updatedAt?: string
+	/** Projects use `launchedAt` as their ship date. */
+	launchedAt?: string
+	/** Series-part ordering within a series. */
+	order?: number
+	/** Series grouping id. */
+	series_id?: string
+	/** Project links. */
+	site?: string
+	github?: string
 }
 
 /** A compiled content module: the rendered component + its frontmatter. */

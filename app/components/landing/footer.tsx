@@ -58,8 +58,9 @@ export function Footer() {
 								)
 							})}
 							<Link
-								to='/rss'
+								to='/rss.xml'
 								aria-label='RSS'
+								reloadDocument
 								className='flex items-center text-[var(--kami-brand)] transition-colors hover:text-[var(--kami-brand-light)]'
 							>
 								<RssIcon className='size-4' />
