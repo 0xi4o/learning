@@ -12,6 +12,15 @@ I'm a Senior Software Engineer at [Workday](https://workday.com) working on [Flo
 - [Ink](https://github.com/aureliushq/ink), a simple static site generator
 - [Kobun](https://kobun.io), a modern GitHub-powered CMS for developers
 
+Here are my past [projects](/projects).
+
+## Learning
+
+- How temporal.io works
+- Redis Internals
+
+I learn in public and publish lessons/notes on my [learning page](/learning).
+
 ## Reading
 
 - AI Engineering by Chip Huyen
