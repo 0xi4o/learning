@@ -1,10 +1,7 @@
-import { format } from 'date-fns'
 import { BookOpenIcon } from 'lucide-react'
 import { data, Link } from 'react-router'
 
 import { Content } from '~/components/content'
-import { Badge } from '~/components/ui/badge'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '~/components/ui/card'
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyMedia } from '~/components/ui/empty'
 import { profile } from '~/data/portfolio'
 import { getCollection, getContent } from '~/lib/content'
@@ -44,44 +41,44 @@ export default function Learning({ loaderData }: Route.ComponentProps) {
 			<section className='typeset'>
 				<h2>Current Projects</h2>
 
-				<ul className='grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-[18px] p-0'>
+				<ul className='flex list-none flex-col gap-3.5 p-0'>
 					{currentProjects && currentProjects.length > 0 ? (
 						<>
 							{currentProjects.map(({ slug, frontmatter }) => (
-								<li key={slug} className='flex p-0'>
-									<Link to={`/projects/${slug}`} className='flex flex-1'>
-										<Card className='border-border flex-1 rounded-lg border ring-0 transition-shadow hover:shadow-[0_4px_24px_rgba(0,0,0,0.05)]'>
-											<CardHeader>
-												<CardTitle className='text-[15px] font-medium'>
-													{frontmatter.title}
-												</CardTitle>
-												{
-													// @ts-ignore
-													frontmatter.createdAt && (
-														<CardDescription className='text-[12px]'>
-															{format(
-																// @ts-ignore
-																new Date(frontmatter.createdAt),
-																'MMMM dd, yyyy',
-															)}
-														</CardDescription>
-													)
-												}
-											</CardHeader>
-											<CardContent className='flex flex-1 flex-col gap-4'>
-												<Content
-													id={`collections/projects/${slug}/index`}
-													className='text-muted-foreground text-[12px] leading-[1.4]'
-												/>
-												<div className='mt-auto flex flex-wrap gap-1.5'>
-													{frontmatter.tags?.map((tag) => (
-														<Badge key={tag} variant='secondary'>
-															{tag}
-														</Badge>
-													))}
-												</div>
-											</CardContent>
-										</Card>
+								<li
+									// @ts-ignore
+									key={slug}
+									className='p-0'
+								>
+									<Link
+										className='flex items-center justify-between'
+										// @ts-ignore
+										to={`/projects/${slug}`}
+									>
+										<span className='text-primary text-base leading-[1.5] font-medium'>
+											{
+												// @ts-ignore
+												frontmatter.title
+											}
+											<Content
+												// @ts-ignore
+												id={`collections/projects/${slug}/index`}
+												className='text-muted-foreground mt-1 block text-[13px] leading-[1.4] font-normal italic'
+											/>
+										</span>
+										{
+											// @ts-ignore
+											frontmatter.tags &&
+												// @ts-ignore
+												frontmatter.tags.length > 0 && (
+													<p className='text-secondary-foreground text-sm leading-[1.55] capitalize'>
+														{
+															// @ts-ignore
+															frontmatter.tags.join(' \u00B7 ')
+														}
+													</p>
+												)
+										}
 									</Link>
 								</li>
 							))}
@@ -107,42 +104,42 @@ export default function Learning({ loaderData }: Route.ComponentProps) {
 				<section className='typeset'>
 					<h2>Past Projects</h2>
 
-					<ul className='grid grid-cols-[repeat(auto-fill,minmax(240px,1fr))] gap-[18px] p-0'>
+					<ul className='flex list-none flex-col gap-3.5 p-0'>
 						{pastProjects.map(({ slug, frontmatter }) => (
-							<li key={slug} className='flex p-0'>
-								<Link to={`/projects/${slug}`} className='flex flex-1'>
-									<Card className='border-border flex-1 rounded-lg border ring-0 transition-shadow hover:shadow-[0_4px_24px_rgba(0,0,0,0.05)]'>
-										<CardHeader>
-											<CardTitle className='text-[15px] font-medium'>
-												{frontmatter.title}
-											</CardTitle>
-											{
-												// @ts-ignore
-												frontmatter.createdAt && (
-													<CardDescription className='text-[12px]'>
-														{format(
-															// @ts-ignore
-															new Date(frontmatter.createdAt),
-															'MMMM dd, yyyy',
-														)}
-													</CardDescription>
-												)
-											}
-										</CardHeader>
-										<CardContent className='flex flex-1 flex-col gap-4'>
-											<Content
-												id={`collections/projects/${slug}/index`}
-												className='text-muted-foreground text-[12px] leading-[1.4]'
-											/>
-											<div className='mt-auto flex flex-wrap gap-1.5'>
-												{frontmatter.tags?.map((tag) => (
-													<Badge key={tag} variant='secondary'>
-														{tag}
-													</Badge>
-												))}
-											</div>
-										</CardContent>
-									</Card>
+							<li
+								// @ts-ignore
+								key={slug}
+								className='p-0'
+							>
+								<Link
+									className='flex items-center justify-between'
+									// @ts-ignore
+									to={`/projects/${slug}`}
+								>
+									<span className='text-primary text-base leading-[1.5] font-medium'>
+										{
+											// @ts-ignore
+											frontmatter.title
+										}
+										<Content
+											// @ts-ignore
+											id={`collections/projects/${slug}/index`}
+											className='text-muted-foreground mt-1 block text-[13px] leading-[1.4] font-normal italic'
+										/>
+									</span>
+									{
+										// @ts-ignore
+										frontmatter.tags &&
+											// @ts-ignore
+											frontmatter.tags.length > 0 && (
+												<p className='text-secondary-foreground text-sm leading-[1.55] capitalize'>
+													{
+														// @ts-ignore
+														frontmatter.tags.join(' \u00B7 ')
+													}
+												</p>
+											)
+									}
 								</Link>
 							</li>
 						))}

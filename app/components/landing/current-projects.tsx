@@ -5,7 +5,7 @@ import { Content } from '~/components/content'
 
 export function CurrentProjects({ currentProjects }: { currentProjects: Array<unknown> }) {
 	return (
-		<section id='projects' className='mb-12'>
+		<section className='mb-12'>
 			<div className='typeset mb-6 space-y-2'>
 				<div className='flex items-center justify-between'>
 					<p className='font-mono text-[13px] tracking-[0.4px] uppercase'>

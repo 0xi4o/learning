@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { ArrowLeftIcon, GlobeIcon, InfoIcon, RocketIcon } from 'lucide-react'
+import { ArrowLeftIcon, ConstructionIcon, GlobeIcon, InfoIcon, RocketIcon } from 'lucide-react'
 import { data, Link } from 'react-router'
 
 import { Content } from '~/components/content'
@@ -50,6 +50,8 @@ export default function ProjectEntry({ loaderData }: Route.ComponentProps) {
 						// @ts-ignore
 						frontmatter.site ||
 						// @ts-ignore
+						frontmatter.createdAt ||
+						// @ts-ignore
 						frontmatter.launchedAt ? (
 							<div className='mt-4.5 flex items-center gap-5'>
 								{
@@ -69,6 +71,19 @@ export default function ProjectEntry({ loaderData }: Route.ComponentProps) {
 												}
 											</span>
 										</a>
+									)
+								}
+								{
+									// @ts-ignore
+									frontmatter.createdAt && (
+										<span className='flex items-center gap-1.5 font-mono text-[13px] text-[var(--kami-stone)] uppercase'>
+											<ConstructionIcon className='size-4' />
+											{format(
+												// @ts-ignore
+												new Date(frontmatter.createdAt),
+												'MMMM dd, yyyy',
+											)}
+										</span>
 									)
 								}
 								{
