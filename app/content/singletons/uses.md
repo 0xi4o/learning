@@ -12,13 +12,13 @@ description: Here's my daily toolkit - everything from dev tools to everyday app
 - Graphics: Nvidia GeForce RTX 2070 Super
 - PSU: Gigabyte P750GM 80 Plus Gold
 - Monitors: Benq 28-inch 4k, Dell P Series 24-inch 1080p
-- Keyboard: Logitech Gaming Keyboard
+- Keyboard: ZSA Voyager
 - Mouse: Logitech G502 Lightspeed
 - Webcam: Logitech C922
 - Mic: Maono PD100XS Dynamic Gaming Microphone
 - Headphones: Razer Blackshark V2 Pro, KZ ZSN Pro X
-- OS: MacOS for work work, Omarchy for personal work & gaming, Windows 11 for gaming
-- WM: Hyprland
+- OS: MacOS for work work, MacOS/Ubuntu for personal work, and CachyOS for gaming
+- WM: i3
 
 ## Laptops
 
@@ -26,15 +26,17 @@ description: Here's my daily toolkit - everything from dev tools to everyday app
 
 ## Mobile Devices
 
-- Apple iPhone 16
+- iPhone 16
+- iPhone SE2
+- Nothing Phone 4a
 - Lenovo P12 Tablet
 
 ## Dev Tools
 
 - IDE: Doom Emacs
 - Theme: Catpuccin Mocha
-- Terminal: Ghostty, smug, and tmux
-- Shell: Zsh with Oh My Zsh, Starship, zsh-autosuggestions
+- Terminal: Ghostty, tmux, and smug
+- Shell: Oh My Zsh, Starship, zsh-autosuggestions
 
 ## Tech Stack
 
@@ -49,7 +51,7 @@ description: Here's my daily toolkit - everything from dev tools to everyday app
 - Chat: Slack, Discord
 - Design: Canva
 - Notes: Obsidian
-- Writing: Aurelius
+- Writing: [Aurelius](https://aurelius.ink)
 - Music: Apple Music
 - Password Manager: Proton Pass
 - Bookmarks: Matter
@@ -58,8 +60,7 @@ description: Here's my daily toolkit - everything from dev tools to everyday app
 ## Reading
 
 - Kindle Paperwhite Signature Edition
-- Apple iPhone 16
-- Lenovo P12 Tablet
+- Physical Books
 
 ## Gaming
 
