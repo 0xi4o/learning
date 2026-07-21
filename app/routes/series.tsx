@@ -76,7 +76,7 @@ export default function Series({ loaderData }: Route.ComponentProps) {
 						</EmptyMedia>
 						<EmptyTitle>Nothing here yet</EmptyTitle>
 						<EmptyDescription>
-							Once I publish a series, they'll show up here.
+							When I publish a series, it'll show up here.
 						</EmptyDescription>
 					</EmptyHeader>
 				</Empty>

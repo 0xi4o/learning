@@ -3,6 +3,7 @@ import { ArrowLeftIcon, ConstructionIcon, GlobeIcon, InfoIcon, RocketIcon } from
 import { data, Link } from 'react-router'
 
 import { Content } from '~/components/content'
+import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyMedia } from '~/components/ui/empty'
 import { getCollection, getContent } from '~/lib/content'
 
 import type { Route } from './+types/project-entry'
@@ -118,22 +119,36 @@ export default function ProjectEntry({ loaderData }: Route.ComponentProps) {
 
 				<section className='typeset'>
 					<h2>Updates</h2>
-					<ul className='flex list-none flex-col gap-3.5 p-0'>
-						{updates.map((update, index) => (
-							<li className='p-0' key={update.id}>
-								<span className='text-base leading-[1.5]'>
-									{`${index + 1}. ${update.frontmatter.title}`}
-								</span>
-								<time className='text-sm'>
-									{format(
-										// @ts-ignore
-										new Date(lesson.frontmatter.createdAt),
-										'MMMM dd, yyyy',
-									)}
-								</time>
-							</li>
-						))}
-					</ul>
+					{updates && updates.length > 0 ? (
+						<ul className='flex list-none flex-col gap-3.5 p-0'>
+							{updates.map((update, index) => (
+								<li className='p-0' key={update.id}>
+									<span className='text-base leading-[1.5]'>
+										{`${index + 1}. ${update.frontmatter.title}`}
+									</span>
+									<time className='text-sm'>
+										{format(
+											// @ts-ignore
+											new Date(lesson.frontmatter.createdAt),
+											'MMMM dd, yyyy',
+										)}
+									</time>
+								</li>
+							))}
+						</ul>
+					) : (
+						<Empty className='border-border col-span-3 border'>
+							<EmptyHeader>
+								<EmptyMedia variant='icon'>
+									<ConstructionIcon className='size-4' />
+								</EmptyMedia>
+								<EmptyTitle>Nothing here yet</EmptyTitle>
+								<EmptyDescription>
+									When I publish an update, it'll show up here.
+								</EmptyDescription>
+							</EmptyHeader>
+						</Empty>
+					)}
 				</section>
 			</article>
 		</>
