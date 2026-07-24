@@ -5,6 +5,7 @@ import Hero from '~/components/landing/hero'
 import { RecentArticles } from '~/components/landing/recent-articles'
 import { profile } from '~/data/portfolio'
 import { getCollection, getContent } from '~/lib/content'
+import { pageMeta } from '~/lib/site'
 
 import type { Route } from './+types/home'
 
@@ -34,11 +35,13 @@ export function loader() {
 	}
 }
 
-export function meta() {
-	return [
-		{ title: `${profile.name} · ${profile.role}` },
-		{ name: 'description', content: profile.tagline },
-	]
+export function meta({ location }: Route.MetaArgs) {
+	return pageMeta({
+		title: `${profile.name} · ${profile.role} building calm, durable software`,
+		ogTitle: `${profile.name} · ${profile.role}`,
+		description: profile.tagline,
+		pathname: location.pathname,
+	})
 }
 
 export default function Home({ loaderData }: Route.ComponentProps) {

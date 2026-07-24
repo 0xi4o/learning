@@ -86,7 +86,10 @@ export const nav = [
 	{ label: 'Now', to: '/now' },
 ]
 
-export const footerColumns: { title: string; links: { label: string; to: string }[] }[] = [
+export const footerColumns: {
+	title: string
+	links: { label: string; to: string }[]
+}[] = [
 	{
 		title: 'Writing',
 		links: [
@@ -110,7 +113,7 @@ export const profile: Profile = {
 	tagline: 'I design and build calm, durable software — and write about the craft in public.',
 	yearRange: 'Selected Works 2023–2026',
 	role: 'Product Engineer',
-	location: 'Bangalore',
+	location: 'Bangalore, India',
 	email: 'hey@i4o.dev',
 	website: 'https://i4o.dev',
 	socials: [

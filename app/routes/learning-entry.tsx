@@ -5,6 +5,7 @@ import { data, Link } from 'react-router'
 import { Content } from '~/components/content'
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyMedia } from '~/components/ui/empty'
 import { getCollection, getContent } from '~/lib/content'
+import { pageMeta } from '~/lib/site'
 
 import type { Route } from './+types/learning-entry'
 
@@ -13,15 +14,20 @@ export function loader({ params }: Route.LoaderArgs) {
 	const entry = getContent(`collections/learning/${slug}/index`)
 	if (!entry) throw data(null, { status: 404 })
 	const lessons = getCollection(`collections/learning/${slug}/lessons`)
-	return { frontmatter: entry.frontmatter, lessons, slug }
+	const lessonsSorted = lessons.sort(
+		// @ts-ignore
+		(a, b) => a.frontmatter.lessonNumber - b.frontmatter.lessonNumber,
+	)
+	return { frontmatter: entry.frontmatter, lessons: lessonsSorted, slug }
 }
 
-export function meta({ loaderData }: Route.MetaArgs) {
+export function meta({ loaderData, location }: Route.MetaArgs) {
 	if (!loaderData) return [{ title: 'Not found' }]
-	return [
-		{ title: loaderData.frontmatter.title },
-		{ name: 'description', content: loaderData.frontmatter.description ?? '' },
-	]
+	return pageMeta({
+		title: loaderData.frontmatter.title,
+		description: loaderData.frontmatter.description,
+		pathname: location.pathname,
+	})
 }
 
 export default function LearningEntry({ loaderData }: Route.ComponentProps) {

@@ -4,6 +4,7 @@ import { data, Link } from 'react-router'
 
 import { MdxProvider } from '~/components/mdx-provider'
 import { getContent } from '~/lib/content'
+import { pageMeta } from '~/lib/site'
 
 import type { Route } from './+types/article-entry'
 
@@ -14,12 +15,13 @@ export function loader({ params }: Route.LoaderArgs) {
 	return { slug, frontmatter: entry.frontmatter }
 }
 
-export function meta({ loaderData }: Route.MetaArgs) {
+export function meta({ loaderData, location }: Route.MetaArgs) {
 	if (!loaderData) return [{ title: 'Not found' }]
-	return [
-		{ title: loaderData.frontmatter.title },
-		{ name: 'description', content: loaderData.frontmatter.description ?? '' },
-	]
+	return pageMeta({
+		title: loaderData.frontmatter.title,
+		description: loaderData.frontmatter.description,
+		pathname: location.pathname,
+	})
 }
 
 export default function LearningEntry({ loaderData }: Route.ComponentProps) {

@@ -12,11 +12,67 @@ export const SITE = {
 	description: profile.tagline,
 	author: hero.title,
 	email: profile.email,
+	/** Og:site_name — the brand shown above the title in Discord/Slack/iMessage cards. */
+	name: hero.title,
+	/** `@handle` for twitter:site / twitter:creator, from the X social entry. */
+	twitter: `@${profile.socials.find((s) => s.label === 'X')?.handle ?? '0xi4o'}`,
+	/**
+	 * Static 1200×630 social card, served from `public/og.png`. Used site-wide for og/twitter
+	 * image.
+	 */
+	image: '/og.png',
 }
 
 /** Absolute URL for a site-relative path (which must start with `/`). */
 export function abs(path: string): string {
 	return `${SITE.url}${path}`
+}
+
+/** A React Router v7 meta descriptor (title / named / property / link forms). */
+type MetaDescriptor =
+	| { title: string }
+	| { name: string; content: string }
+	| { property: string; content: string }
+	| { tagName: 'link'; rel: string; href: string }
+
+/**
+ * Full per-page meta for a route's `meta()` export: `<title>`, description, canonical link, and the
+ * Open Graph + Twitter tags. The og/twitter image defaults to the shared static card
+ * (`SITE.image`); pass `image` (a site-relative path) to override it per page. Invariant tags that
+ * never change per page (og:site_name, og:type, twitter:card, twitter:site) live statically in
+ * `app/root.tsx`'s `<head>` instead, so nothing here duplicates them.
+ */
+export function pageMeta({
+	title,
+	description,
+	pathname,
+	ogTitle,
+	image,
+}: {
+	title: string
+	description?: string
+	pathname: string
+	ogTitle?: string
+	image?: string
+}): MetaDescriptor[] {
+	const desc = description || SITE.description
+	const socialTitle = ogTitle ?? title
+	const img = abs(image ?? SITE.image)
+	const url = abs(pathname)
+	return [
+		{ title },
+		{ name: 'description', content: desc },
+		{ property: 'og:title', content: socialTitle },
+		{ property: 'og:description', content: desc },
+		{ property: 'og:url', content: url },
+		{ property: 'og:image', content: img },
+		{ property: 'og:image:width', content: '1200' },
+		{ property: 'og:image:height', content: '630' },
+		{ name: 'twitter:title', content: socialTitle },
+		{ name: 'twitter:description', content: desc },
+		{ name: 'twitter:image', content: img },
+		{ tagName: 'link', rel: 'canonical', href: url },
+	]
 }
 
 /** Escape a string for safe inclusion in XML text/attribute content. */

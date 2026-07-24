@@ -1,5 +1,7 @@
 import { isRouteErrorResponse, Links, Meta, Outlet, Scripts, ScrollRestoration } from 'react-router'
 
+import { SITE } from '~/lib/site'
+
 import type { Route } from './+types/root'
 
 import './app.css'
@@ -12,6 +14,14 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			<head>
 				<meta charSet='utf-8' />
 				<meta name='viewport' content='width=device-width, initial-scale=1' />
+				{/* Invariant social tags. Per-page og and twitter values come from each route's
+				    meta() via <Meta /> below (see pageMeta in ~/lib/site). */}
+				<meta property='og:site_name' content={SITE.name} />
+				<meta property='og:type' content='website' />
+				<meta property='og:locale' content='en_US' />
+				<meta name='twitter:card' content='summary_large_image' />
+				<meta name='twitter:site' content={SITE.twitter} />
+				<meta name='twitter:creator' content={SITE.twitter} />
 				<link
 					rel='alternate'
 					type='application/rss+xml'

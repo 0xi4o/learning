@@ -5,6 +5,7 @@ import { data, Link } from 'react-router'
 import { MdxProvider } from '~/components/mdx-provider'
 import { profile } from '~/data/portfolio'
 import { getContent } from '~/lib/content'
+import { pageMeta } from '~/lib/site'
 
 import type { Route } from './+types/series-part-entry'
 
@@ -22,12 +23,14 @@ export function loader({ params }: Route.LoaderArgs) {
 	}
 }
 
-export function meta({ loaderData }: Route.MetaArgs) {
+export function meta({ loaderData, location }: Route.MetaArgs) {
 	if (!loaderData) return [{ title: 'Not found' }]
-	return [
-		{ title: `${loaderData.frontmatter.title} — ${profile.name}` },
-		{ name: 'description', content: loaderData.frontmatter.description ?? '' },
-	]
+	return pageMeta({
+		title: `${loaderData.frontmatter.title} — ${profile.name}`,
+		description: loaderData.frontmatter.description,
+		pathname: location.pathname,
+		ogTitle: loaderData.frontmatter.title,
+	})
 }
 
 export default function SeriesPartEntry({ loaderData }: Route.ComponentProps) {

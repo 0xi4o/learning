@@ -6,12 +6,14 @@ import { Eyebrow, Section } from '~/components/portfolio/primitives'
 import { ProjectCase } from '~/components/portfolio/project-case'
 import { SelectedWorks } from '~/components/portfolio/selected-works'
 import { profile, projects } from '~/data/portfolio'
+import { pageMeta } from '~/lib/site'
 
 export function meta() {
-	return [
-		{ title: `${profile.name} · Portfolio` },
-		{ name: 'description', content: profile.tagline },
-	]
+	return pageMeta({
+		title: `${profile.name} · Portfolio`,
+		description: profile.tagline,
+		pathname: '/portfolio',
+	})
 }
 
 export default function Portfolio() {

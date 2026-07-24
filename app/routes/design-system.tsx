@@ -14,16 +14,15 @@ import { ProseTypeset } from '~/components/design-system/prose-typeset'
 import { QuickReference } from '~/components/design-system/quick-reference'
 import { SpacingShape } from '~/components/design-system/spacing-shape'
 import { TypeSystem } from '~/components/design-system/type-system'
+import { pageMeta } from '~/lib/site'
 
 export function meta() {
-	return [
-		{ title: 'Kami · Document Design System for AI Agents' },
-		{
-			name: 'description',
-			content:
-				'Kami — a warm parchment design system for AI-assisted professional documents, shaped by one accent color, serif-led hierarchy, and editorial whitespace.',
-		},
-	]
+	return pageMeta({
+		title: 'Kami · Document Design System for AI Agents',
+		description:
+			'Kami — a warm parchment design system for AI-assisted professional documents, shaped by one accent color, serif-led hierarchy, and editorial whitespace.',
+		pathname: '/design-system',
+	})
 }
 
 export default function DesignSystem() {

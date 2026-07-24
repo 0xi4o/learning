@@ -5,15 +5,18 @@ import { Content } from '~/components/content'
 import { Empty, EmptyHeader, EmptyTitle, EmptyDescription, EmptyMedia } from '~/components/ui/empty'
 import { profile } from '~/data/portfolio'
 import { getCollection, getContent } from '~/lib/content'
+import { pageMeta } from '~/lib/site'
 
 import type { Route } from './+types/projects'
 
-export function meta({ loaderData }: Route.MetaArgs) {
+export function meta({ loaderData, location }: Route.MetaArgs) {
 	if (!loaderData) return [{ title: 'Not found' }]
-	return [
-		{ title: `${loaderData.frontmatter.title} — ${profile.name}` },
-		{ name: 'description', content: loaderData.frontmatter.description ?? '' },
-	]
+	return pageMeta({
+		title: `${loaderData.frontmatter.title} — ${profile.name}`,
+		description: loaderData.frontmatter.description,
+		pathname: location.pathname,
+		ogTitle: loaderData.frontmatter.title,
+	})
 }
 
 export function loader() {

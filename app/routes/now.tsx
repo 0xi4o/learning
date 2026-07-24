@@ -3,6 +3,7 @@ import { data } from 'react-router'
 import { Content } from '~/components/content'
 import { profile } from '~/data/portfolio'
 import { getContent } from '~/lib/content'
+import { pageMeta } from '~/lib/site'
 
 import type { Route } from './+types/now'
 
@@ -12,12 +13,14 @@ export function loader() {
 	return { frontmatter: entry.frontmatter }
 }
 
-export function meta({ loaderData }: Route.MetaArgs) {
+export function meta({ loaderData, location }: Route.MetaArgs) {
 	if (!loaderData) return [{ title: 'Not found' }]
-	return [
-		{ title: `${loaderData.frontmatter.title} — ${profile.name}` },
-		{ name: 'description', content: loaderData.frontmatter.description ?? '' },
-	]
+	return pageMeta({
+		title: `${loaderData.frontmatter.title} — ${profile.name}`,
+		description: loaderData.frontmatter.description,
+		pathname: location.pathname,
+		ogTitle: loaderData.frontmatter.title,
+	})
 }
 
 export default function Now({ loaderData }: Route.ComponentProps) {
